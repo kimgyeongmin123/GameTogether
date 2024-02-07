@@ -1,4 +1,4 @@
-package com.example.demo.domain.dto;
+package com.example.demo.domain.dto.article;
 
 import com.example.demo.domain.entity.Article;
 import lombok.Getter;

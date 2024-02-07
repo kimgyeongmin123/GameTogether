@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.dto.AddArticleRequest;
-import com.example.demo.domain.dto.ArticleResponse;
+import com.example.demo.domain.dto.article.AddArticleRequest;
+import com.example.demo.domain.dto.article.ArticleResponse;
+import com.example.demo.domain.dto.article.UpdateArticleRequest;
 import com.example.demo.domain.entity.Article;
 import com.example.demo.domain.service.BlogService;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +42,30 @@ public class BlogApiController {
 
 //    글 하나 조회
     @GetMapping("/api/articles/{id}")
-    public ResponseEntity<ArticleResponse> findArticle(@PathVariable("id") Long id){
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable("id") long id){
         System.out.println("글하나조회 컨트롤러"+id);
         Article article = blogService.findById(id);
 
         return ResponseEntity.ok()
                 .body(new ArticleResponse(article));
+    }
+
+//    글 삭제
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable long id){
+        blogService.delete(id);
+
+        return ResponseEntity.ok()
+                .build();
+    }
+
+//    글 수정
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id,
+                                                 @RequestBody UpdateArticleRequest request){
+        Article updatedArticle = blogService.update(id, request);
+
+        return ResponseEntity.ok()
+                .body(updatedArticle);
     }
 }

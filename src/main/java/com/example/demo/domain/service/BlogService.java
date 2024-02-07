@@ -1,8 +1,10 @@
 package com.example.demo.domain.service;
 
-import com.example.demo.domain.dto.AddArticleRequest;
+import com.example.demo.domain.dto.article.AddArticleRequest;
+import com.example.demo.domain.dto.article.UpdateArticleRequest;
 import com.example.demo.domain.entity.Article;
 import com.example.demo.domain.repository.BlogRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,21 @@ public class BlogService {
         System.out.println("글하나조회 서비스"+id);
         return blogRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("not found: "+id));
+    }
+
+//    글 삭제
+    public void delete(long id){
+        blogRepository.deleteById(id);
+    }
+
+//    글 수정
+    @Transactional
+    public Article update(long id, UpdateArticleRequest request){
+        Article article = blogRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("not found: "+id));
+
+        article.update(request.getTitle(), request.getContent());
+
+        return article;
     }
 }
