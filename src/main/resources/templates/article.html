@@ -17,17 +17,36 @@
 
 <main>
     <div class="card">
+        <input type="hidden" id="article-id" th:value="${article.id}">
         <div class="card-header" th:text="${article.title}">
             ArticleTitle
         </div>
         <div class="card-body">
             <h5 class="card-title" th:text="${article.content}">ArticleContent</h5>
             <p class="card-text" th:text="|게시한 날짜 : ${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}|">ArticleContent</p>
-            <button href="#" class="btn btn-primary">수정</button>
-            <button href="#" class="btn btn-primary">삭제</button>
+            <button type="button" class="btn btn-primary">수정</button>
+            <button type="button" id="delete-btn" class="btn btn-primary">삭제</button>
         </div>
     </div>
 </main>
 
+<!--<script src="/js/article.js"></script>-->
+<script>
+    const deleteButton = document.getElementById('delete-btn');
+
+if (deleteButton){
+    deleteButton.addEventListener('click', event => {
+    console.log('Button clicked!');
+        let id = document.getElementById('article-id').value;
+        fetch(`/api/articles/${id}`, {
+            method: 'DELETE'
+        })
+        .then(() => {
+            alert('삭제가 완료되었습니다.');
+            location.replace('/articles');
+        });
+    });
+}
+</script>
 </body>
 </html>
