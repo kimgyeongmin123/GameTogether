@@ -24,7 +24,7 @@
         <div class="card-body">
             <h5 class="card-title" th:text="${article.content}">ArticleContent</h5>
             <p class="card-text" th:text="|게시한 날짜 : ${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}|">ArticleContent</p>
-            <button type="button" class="btn btn-primary">수정</button>
+            <button type="button" id="modify-btn" th:onclick="|location.href='@{/new-article?id={articleId}(articleId=${article.id})}'|" class="btn btn-primary">수정</button>
             <button type="button" id="delete-btn" class="btn btn-primary">삭제</button>
         </div>
     </div>
@@ -36,7 +36,6 @@
 
 if (deleteButton){
     deleteButton.addEventListener('click', event => {
-    console.log('Button clicked!');
         let id = document.getElementById('article-id').value;
         fetch(`/api/articles/${id}`, {
             method: 'DELETE'

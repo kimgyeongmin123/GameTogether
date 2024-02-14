@@ -6,6 +6,7 @@ import com.example.demo.domain.entity.Article;
 import com.example.demo.domain.repository.BlogRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
