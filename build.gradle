@@ -35,16 +35,18 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	스프링 시큐리티
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 //	타임리프
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 
 
-	testImplementation 'org.springframework.security:spring-security-test'
+
+
 
 }
 
