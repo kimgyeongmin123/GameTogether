@@ -45,11 +45,14 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth,
+    public AuthenticationManager authenticationManager(HttpSecurity http,
                                                        BCryptPasswordEncoder bCryptPasswordEncoder,
-                                                       UserDetailService userDetailService) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
-        return auth.build();
+                                                       UserDetailService userDetailService) throws Exception{
+        http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userService)
+                .passwordEncoder(bCryptPasswordEncoder);
+
+        return http.getSharedObject(AuthenticationManager.class);
     }
 
     @Bean
