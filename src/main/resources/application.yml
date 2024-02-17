@@ -10,6 +10,11 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb
     username: mango
+
   h2:
     console:
       enabled: true
+
+jwt:
+  issuer: mango@naver.com
+  secret_key: mango-springboot
