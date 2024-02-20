@@ -33,12 +33,15 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers("/login", "/signup", "/user").permitAll()
                     .anyRequest().authenticated())
+
                 .formLogin(formLogin -> formLogin
                     .loginPage("/login")
                     .defaultSuccessUrl("/articles"))
+
                 .logout((logout) -> logout
                     .logoutSuccessUrl("/login")
                     .invalidateHttpSession(true))
+
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
