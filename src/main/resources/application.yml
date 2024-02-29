@@ -1,4 +1,15 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            scope:
+              - email
+              - profile
+
   jpa:
     show-sql: true
     properties:
@@ -18,3 +29,4 @@ spring:
 jwt:
   issuer: mango@naver.com
   secret_key: mango-springboot
+
