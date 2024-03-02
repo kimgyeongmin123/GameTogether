@@ -22,7 +22,7 @@ public class BlogApiController {
 //    글 작성
     @PostMapping("/api/articles")
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request, Principal principal){
-        System.out.println("글등록 컨트롤러");
+        System.out.println("글등록 컨트롤러" + request.getTitle());
         Article savedArticle = blogService.save(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED)

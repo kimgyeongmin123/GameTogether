@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.dto.jwt.CreateAccessTokenRequest;
 import com.example.demo.domain.dto.jwt.CreateAccessTokenResponse;
+import com.example.demo.domain.dto.user.WebLoginRequest;
 import com.example.demo.domain.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,4 +24,5 @@ public class TokenApiController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new CreateAccessTokenResponse(newAccessToken));
     }
+
 }

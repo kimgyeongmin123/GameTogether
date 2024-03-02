@@ -131,6 +131,7 @@ function httpRequest(method, url, body, success, fail) {
         },
         body: body,
     }).then(response => {
+    console.log('Request headers:', response.headers);
         if (response.status === 200 || response.status === 201) {
             return success();
         }
