@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -27,6 +28,7 @@ public class LoginController {
         System.out.println("로그인 컨드롤러 로그인 : " + request.getEmail());
         String token = loginService.login(request);
         System.out.println("토큰 : " + token);
+        String refreshToken = loginService.makeRefreshToken(request);
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 

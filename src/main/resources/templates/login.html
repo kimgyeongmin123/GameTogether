@@ -53,7 +53,7 @@ if(loginButton){
             return response.text();
         })
         .then(token => {
-            localStorage.setItem("access_Token", token);
+            localStorage.setItem("access_token", token);
             window.location.href = "/articles";
         })
         .catch(error => {
