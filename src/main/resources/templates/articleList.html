@@ -141,6 +141,8 @@ function httpRequest(method, url, body, success, fail) {
         },
         body: body,
     }).then(response => {
+    console.log(localStorage.getItem('access_token'));
+    console.log('response.status:', response.status);
         if (response.status === 200 || response.status === 201) {
             return success();
         }

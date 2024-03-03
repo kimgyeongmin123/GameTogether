@@ -31,8 +31,6 @@ dependencies {
     testImplementation 'org.projectlombok:lombok:1.18.28'
 	testImplementation 'org.projectlombok:lombok:1.18.28'
 
-	runtimeOnly 'com.h2database:h2'
-
 	//	롬복
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -54,6 +52,12 @@ dependencies {
 
 //	@Valid
 	implementation 'javax.validation:validation-api:2.0.1.Final'
+
+//	myslq
+	implementation 'com.mysql:mysql-connector-j:8.2.0'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+
 
 
 

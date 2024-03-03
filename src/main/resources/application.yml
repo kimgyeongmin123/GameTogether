@@ -5,7 +5,7 @@ spring:
         registration:
           google:
             client-id:
-            client-secret: 
+            client-secret:
             scope:
               - email
               - profile
@@ -15,16 +15,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    hibernate:
+      ddl-auto: create
 
     defer-datasource-initialization: true
 
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: mango
+    url: jdbc:mysql://localhost:3306/mango
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-  h2:
-    console:
-      enabled: true
 
 jwt:
   issuer: mango@naver.com
