@@ -29,14 +29,18 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "nickname", unique = true)
+    @Column(name = "nickname", unique = true, nullable = false)
     private String nickname;
 
+    @Column(name = "ageGroup", nullable = false)
+    private String ageGroup;
+
     @Builder
-    public User(String email, String password, String nickname){
+    public User(String email, String password, String nickname, String ageGroup){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
+        this.ageGroup = ageGroup;
     }
 
 //    사용자 이름 변경
