@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AddArticleRequest {
 
+    private String selectedGame;
     private String title;
     private String content;
 
 //    DTO를 엔티티로
     public Article toEntity(String author){
         return Article.builder()
+                .selectedGame(selectedGame)
                 .title(title)
                 .content(content)
                 .author(author)

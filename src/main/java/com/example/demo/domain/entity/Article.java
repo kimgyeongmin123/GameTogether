@@ -22,6 +22,9 @@ public class Article {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @Column(name = "selectedGame", nullable = false)
+    private String selectedGame;
+
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -35,13 +38,10 @@ public class Article {
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(name="updated_at")
-    private LocalDateTime updatedAt;
-
     @Builder    /*빌더 패턴*/
-    public Article(String author, String title, String content){
+    public Article(String author, String selectedGame, String title, String content){
         this.author = author;
+        this.selectedGame = selectedGame;
         this.title = title;
         this.content = content;
     }

@@ -3,7 +3,9 @@ package com.example.demo.domain.service;
 import com.example.demo.domain.dto.article.AddArticleRequest;
 import com.example.demo.domain.dto.article.UpdateArticleRequest;
 import com.example.demo.domain.entity.Article;
+import com.example.demo.domain.entity.User;
 import com.example.demo.domain.repository.BlogRepository;
+import com.example.demo.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,13 @@ public class BlogService {
 
     private final BlogRepository blogRepository;
 
+    private final UserRepository userRepository;
+
 //    블로그 글 추가
     public Article save(AddArticleRequest request, String userName){
-        return blogRepository.save(request.toEntity(userName));
+        User user = userRepository.findByEmail(userName)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + userName));
+        return blogRepository.save(request.toEntity(user.getNickname()));
     }
 
 //    글 전체 조회

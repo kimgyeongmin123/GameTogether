@@ -7,6 +7,23 @@
     <!--    Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <style>
+        .game-radio {
+            display: none;
+        }
+
+        .game-label {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            cursor: pointer;
+        }
+
+        .game-label.selected {
+            border: 2px solid red;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,6 +33,18 @@
 </header>
 
 <main>
+    <section>
+        <div class="form-check form-check-inline">
+            <label class="game-label" for="gameRadio1" style="background-image:url('/img/lolLogo.png')"></label>
+            <input class="game-radio" type="radio" name="inlineRadioOptions" id="gameRadio1" value="리그오브레전드">
+
+        </div>
+        <div class="form-check form-check-inline">
+            <label class="game-label" for="gameRadio2" style="background-image:url('/img/overLogo.png')"></label>
+            <input class="game-radio" type="radio" name="inlineRadioOptions" id="gameRadio2" value="오버워치">
+
+        </div>
+    </section>
     <div class="card">
         <input type="hidden" id="article-id" th:value="${article.id}">
         <input type="text" class="card-header" placeholder="제목" id="title" th:value="${article.title}">
@@ -31,23 +60,44 @@
 </main>
 
 <script>
-    // 삭제 기능
-const deleteButton = document.getElementById('delete-btn');
+    var selectedGame;
 
-if (deleteButton) {
-    deleteButton.addEventListener('click', event => {
-        let id = document.getElementById('article-id').value;
+    document.querySelectorAll('.game-label').forEach(function(label) {
+        label.addEventListener('click', function() {
+            label.classList.toggle('selected');
+            selectedGame = label.nextElementSibling.value;
+            console.log(selectedGame);
+            document.querySelectorAll('.game-label').forEach(function(otherLabel) {
+                if (otherLabel !== label) {
+                    otherLabel.classList.remove('selected');
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+// 생성 기능
+const createButton = document.getElementById('create-btn');
+
+if (createButton) {
+    // 등록 버튼을 클릭하면 /api/articles로 요청을 보낸다
+    createButton.addEventListener('click', event => {
+        body = JSON.stringify({
+            selectedGame: selectedGame,
+            title: document.getElementById('title').value,
+            content: document.getElementById('content').value
+        });
         function success() {
-            alert('삭제가 완료되었습니다.');
+            alert('등록 완료되었습니다.');
             location.replace('/articles');
-        }
-
+        };
         function fail() {
-            alert('삭제 실패했습니다.');
+            alert('등록 실패했습니다.');
             location.replace('/articles');
-        }
+        };
 
-        httpRequest('DELETE',`/api/articles/${id}`, null, success, fail);
+        httpRequest('POST','/api/articles', body, success, fail)
     });
 }
 
@@ -77,30 +127,6 @@ if (modifyButton) {
         httpRequest('PUT',`/api/articles/${id}`, body, success, fail);
     });
 }
-
-// 생성 기능
-const createButton = document.getElementById('create-btn');
-
-if (createButton) {
-    // 등록 버튼을 클릭하면 /api/articles로 요청을 보낸다
-    createButton.addEventListener('click', event => {
-        body = JSON.stringify({
-            title: document.getElementById('title').value,
-            content: document.getElementById('content').value
-        });
-        function success() {
-            alert('등록 완료되었습니다.');
-            location.replace('/articles');
-        };
-        function fail() {
-            alert('등록 실패했습니다.');
-            location.replace('/articles');
-        };
-
-        httpRequest('POST','/api/articles', body, success, fail)
-    });
-}
-
 
 // 쿠키를 가져오는 함수
 function getCookie(key) {
