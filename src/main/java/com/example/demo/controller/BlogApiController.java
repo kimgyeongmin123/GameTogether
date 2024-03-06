@@ -22,7 +22,8 @@ public class BlogApiController {
 //    글 작성
     @PostMapping("/api/articles")
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request, Principal principal){
-        System.out.println("글등록 컨트롤러" + request.getTitle());
+        System.out.println("글등록 컨트롤러 제목 : " + request.getTitle());
+        System.out.println("userName : " + principal.getName());
         Article savedArticle = blogService.save(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -61,13 +62,13 @@ public class BlogApiController {
                 .build();
     }
 
-//    글 수정
-    @PutMapping("/api/articles/{id}")
-    public ResponseEntity<Article> updateArticle(@PathVariable long id,
-                                                 @RequestBody UpdateArticleRequest request){
-        Article updatedArticle = blogService.update(id, request);
-
-        return ResponseEntity.ok()
-                .body(updatedArticle);
-    }
+//    글 수정 (기능 삭제)
+//    @PutMapping("/api/articles/{id}")
+//    public ResponseEntity<Article> updateArticle(@PathVariable long id,
+//                                                 @RequestBody UpdateArticleRequest request){
+//        Article updatedArticle = blogService.update(id, request);
+//
+//        return ResponseEntity.ok()
+//                .body(updatedArticle);
+//    }
 }

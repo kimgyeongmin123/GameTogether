@@ -57,6 +57,12 @@ dependencies {
 	implementation 'com.mysql:mysql-connector-j:8.2.0'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
+//	웹소켓
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.webjars:stomp-websocket:2.3.3-1'
+
+
+
 
 
 

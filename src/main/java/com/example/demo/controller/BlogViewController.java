@@ -3,14 +3,18 @@ package com.example.demo.controller;
 import com.example.demo.domain.dto.article.ArticleListViewResponse;
 import com.example.demo.domain.dto.article.ArticleViewResponse;
 import com.example.demo.domain.entity.Article;
+import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.BlogService;
+import com.example.demo.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -18,6 +22,8 @@ import java.util.List;
 public class BlogViewController {
 
     private final BlogService blogService;
+
+    private final UserService userService;
 
 //     글 전체목록
     @GetMapping("/articles")
@@ -33,7 +39,7 @@ public class BlogViewController {
 
 //    글 상세조회
     @GetMapping("/articles/{id}")
-    public String getArticle(@PathVariable long id, Model model){
+    public String getArticle(@PathVariable long id, Model model, Principal principal){
 
         Article article = blogService.findById(id);
         model.addAttribute("article", new ArticleViewResponse(article));

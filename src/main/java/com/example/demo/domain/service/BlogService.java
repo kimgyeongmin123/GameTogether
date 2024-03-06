@@ -52,16 +52,16 @@ public class BlogService {
     }
 
 //    글 수정
-    @Transactional
-    public Article update(long id, UpdateArticleRequest request){
-        Article article = blogRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("not found: "+id));
-
-        authorizeArticleAuthor(article);
-        article.update(request.getTitle(), request.getContent());
-
-        return article;
-    }
+//    @Transactional
+//    public Article update(long id, UpdateArticleRequest request){
+//        Article article = blogRepository.findById(id)
+//                .orElseThrow(()->new IllegalArgumentException("not found: "+id));
+//
+//        authorizeArticleAuthor(article);
+//        article.update(request.getTitle(), request.getContent());
+//
+//        return article;
+//    }
 
 //    본인이 작성했는지 확인
     private static void authorizeArticleAuthor(Article article){

@@ -1,6 +1,7 @@
-package com.example.demo.domain.dto.article;
+package com.example.demo.domain.dto.chat;
 
 import com.example.demo.domain.entity.Article;
+import com.example.demo.domain.entity.ChatRoom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,19 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class AddArticleRequest {
+public class AddChatRoomRequest {
 
+    private String author;
     private String selectedGame;
-    private String title;
-    private String content;
 
     //    DTO를 엔티티로
-    public Article toEntity(String author){
-        return Article.builder()
+    public ChatRoom toEntity(String currentUser){
+        return ChatRoom.builder()
                 .selectedGame(selectedGame)
-                .title(title)
-                .content(content)
-                .author(author)
+                .currentUser(currentUser)
                 .build();
     }
 }

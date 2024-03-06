@@ -18,19 +18,50 @@
 <main>
     <div class="card">
         <input type="hidden" id="article-id" th:value="${article.id}">
+        <input type="hidden" id="article-author" th:value="${article.author}">
+
         <div class="card-header" th:text="${article.title}">
             ArticleTitle
         </div>
         <div class="card-body">
             <h5 class="card-title" th:text="${article.content}">ArticleContent</h5>
             <p class="card-text" th:text="|게시한 날짜 : ${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')} 글쓴이 : ${article.author}|">ArticleContent</p>
-            <button type="button" id="modify-btn" th:onclick="|location.href='@{/new-article?id={articleId}(articleId=${article.id})}'|" class="btn btn-primary">수정</button>
             <button type="button" id="delete-btn" class="btn btn-primary">삭제</button>
+            <div>
+                <button type="button" id="chat-Btn" class="btn btn-primary">채팅하기</button>
+            </div>
         </div>
     </div>
 </main>
 
-<script src="/js/token.js"></script>
+<script>
+    const chatButton = document.getElementById('chat-Btn');
+
+    if (chatButton) {
+    chatButton.addEventListener('click', event => {
+
+        body = JSON.stringify({
+            articleAuthor: document.getElementById('article-author').value,
+            articleId: document.getElementById('article-id').value
+        });
+
+        function success(response) {
+            let chatRoomId = response.chatRoomId;
+//          새 창 생성
+            window.open("/chatRoom/" + chatRoomId, "_blank");
+        }
+
+        function fail() {
+            console.error("Failed to create chat room:", error);
+            alert('채팅 생성을 실패했습니다.');
+        }
+
+        httpRequest('POST',`/api/createChatRoom`, body, success, fail);
+    });
+}
+
+</script>
+
 <script>
     // 삭제 기능
 const deleteButton = document.getElementById('delete-btn');
@@ -49,33 +80,6 @@ if (deleteButton) {
         }
 
         httpRequest('DELETE',`/api/articles/${id}`, null, success, fail);
-    });
-}
-
-// 수정 기능
-const modifyButton = document.getElementById('modify-btn');
-
-if (modifyButton) {
-    modifyButton.addEventListener('click', event => {
-        let params = new URLSearchParams(location.search);
-        let id = params.get('id');
-
-        body = JSON.stringify({
-            title: document.getElementById('title').value,
-            content: document.getElementById('content').value
-        })
-
-        function success() {
-            alert('수정 완료되었습니다.');
-            location.replace(`/articles/${id}`);
-        }
-
-        function fail() {
-            alert('수정 실패했습니다.');
-            location.replace(`/articles/${id}`);
-        }
-
-        httpRequest('PUT',`/api/articles/${id}`, body, success, fail);
     });
 }
 
