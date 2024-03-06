@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.dto.chat.AddChatRoomRequest;
+import com.example.demo.domain.dto.chat.ChatRoomResponse;
 import com.example.demo.domain.entity.ChatRoom;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.ChatService;
 import com.example.demo.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,23 +26,17 @@ public class ChatApiController {
     @Autowired
     private final UserService userService;
 
-    @PostMapping("/api/createChatRoom")
-    public ResponseEntity<ChatRoom> createChatRoom(@RequestBody AddChatRoomRequest request, Principal principal) {
+    @PostMapping("/api/ChatRoom")
+    public ResponseEntity<ChatRoom> addChatRoom(@RequestBody AddChatRoomRequest request, Principal principal) {
 
-        // 현재 로그인한 사용자의 ID를 가져옵니다.
-        String userName = principal.getName();
-        User user = userService.findByEmail(userName);
-        System.out.println("userNickname : " + user.getNickname());
-
-        // 요청으로부터 게시물 ID와 작성자를 가져옵니다.
+        System.out.println("채팅룸 생성 컨트롤러 : " + request.getAuthor() + request.getSelectedGame());
         String author = request.getAuthor();
         String selectedGame = request.getSelectedGame();
 
-        // 채팅방 생성을 시도합니다.
-        ChatRoom savedChatRoom = chatService.createChatRoom(request, user.getNickname());
+        ChatRoom savedChatRoom = chatService.save(request, principal.getName());
 
-        // 생성된 채팅방의 ID를 클라이언트에 반환합니다.
-        return ResponseEntity.ok(new CreateChatRoomResponse(savedChatRoom));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(savedChatRoom);
     }
 
     static class ChatRequest {

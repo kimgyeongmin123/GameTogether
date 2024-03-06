@@ -15,6 +15,7 @@ public class ArticleViewResponse {
     private String content;
     private LocalDateTime createdAt;
     private String author;
+    private String selectedGame;
 
     public ArticleViewResponse(Article article){
         this.id = article.getId();
@@ -22,5 +23,6 @@ public class ArticleViewResponse {
         this.content = article.getContent();
         this.createdAt = article.getCreatedAt();
         this.author = article.getAuthor();
+        this.selectedGame = article.getSelectedGame();
     }
 }

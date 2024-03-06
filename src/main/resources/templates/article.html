@@ -19,6 +19,7 @@
     <div class="card">
         <input type="hidden" id="article-id" th:value="${article.id}">
         <input type="hidden" id="article-author" th:value="${article.author}">
+        <input type="hidden" id="article-selectedGame" th:value="${article.selectedGame}">
 
         <div class="card-header" th:text="${article.title}">
             ArticleTitle
@@ -40,15 +41,18 @@
     if (chatButton) {
     chatButton.addEventListener('click', event => {
 
+    console.log('articleId', document.getElementById('article-id').value);
+
         body = JSON.stringify({
-            articleAuthor: document.getElementById('article-author').value,
-            articleId: document.getElementById('article-id').value
+            articleId: document.getElementById('article-id').value,
+            author: document.getElementById('article-author').value,
+            selectedGame: document.getElementById('article-selectedGame').value
         });
 
         function success(response) {
             let chatRoomId = response.chatRoomId;
 //          새 창 생성
-            window.open("/chatRoom/" + chatRoomId, "_blank");
+//            window.open("/chatRoom/" + chatRoomId, "_blank");
         }
 
         function fail() {
@@ -56,7 +60,7 @@
             alert('채팅 생성을 실패했습니다.');
         }
 
-        httpRequest('POST',`/api/createChatRoom`, body, success, fail);
+        httpRequest('POST',`/api/ChatRoom`, body, success, fail);
     });
 }
 
