@@ -26,7 +26,7 @@ public class ChatViewController {
 
         ChatRoom chatRoom = chatService.findById(id);
         System.out.println("채팅룸 불러오는 컨트롤러에서.. 채팅룸 정보 : " + chatRoom);
-        model.addAttribute("chat", new ChatRoomViewResponse(chatRoom));
+        model.addAttribute("chatRoom", new ChatRoomViewResponse(chatRoom));
 
         return "chater";
     }

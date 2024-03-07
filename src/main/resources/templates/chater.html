@@ -11,7 +11,8 @@
 <div>
     <div class="container">
         <div class="col-6">
-            <label><b>채팅방</b></label>
+            <input type="hidden" id="chatRoom-id" th:value="${chatRoom.id}">
+            <label><span th:text="${chatRoom.author}"></span>님 과의 <p></p>매칭 <b>채팅방</b></label>
         </div>
         <div>
             <div id="msgArea" class="col"></div>
@@ -36,7 +37,8 @@
             send();
         });
 
-        const websocket = new WebSocket("ws://localhost:8080/ws/chat");
+        const chatRoomId = document.getElementById('chatRoom-id').value;
+        const websocket = new WebSocket("ws://localhost:8080/ws/chat" + chatRoomId);
 
         websocket.onmessage = onMessage;
         websocket.onopen = onOpen;
@@ -44,7 +46,7 @@
 
         function send(){
 
-// 입력한 메시지 msg 에 담기
+        // 입력한 메시지 msg 에 담기
             let msg = document.getElementById("msg");
 
             console.log(username + ":" + msg.value);
@@ -54,14 +56,10 @@
 
         //채팅창에서 나갔을 때
         function onClose(evt) {
-            var str = username + ": 님이 방을 나가셨습니다.";
-            websocket.send(str);
         }
 
         //채팅창에 들어왔을 때
         function onOpen(evt) {
-            var str = username + ": 님이 입장하셨습니다.";
-            websocket.send(str);
         }
 
         function onMessage(msg) {
