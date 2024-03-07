@@ -19,8 +19,22 @@ public class ChatService {
     private final UserRepository userRepository;
 
     public ChatRoom save(AddChatRoomRequest request, String userName){
-        User user = userRepository.findByEmail(userName)
-                .orElseThrow(() -> new IllegalArgumentException("not found: " + userName));
-        return chatRoomRepository.save(request.toEntity(user.getNickname()));
+        return chatRoomRepository.save(request.toEntity(userName));
+    }
+
+    //채팅방이 존재하는지 확인
+    public boolean hasChatRoom(AddChatRoomRequest request, String userName){
+        return chatRoomRepository.existsByArticleIdAndUserName(request.getArticleId(), userName);
+    }
+
+//  게시글ID 와 userName 으로 채팅방 객체 반환
+    public ChatRoom findByIdAndUsername(AddChatRoomRequest request, String userName){
+        return chatRoomRepository.findByArticleIdAndUserName(request.getArticleId(), userName);
+    }
+
+    public ChatRoom findById(long id){
+        System.out.println("채팅룸 찾기 서비스 : " + id);
+        return chatRoomRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("not found: " + id));
     }
 }

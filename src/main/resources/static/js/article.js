@@ -99,6 +99,8 @@ function httpRequest(method, url, body, success, fail) {
     }).then(response => {
         if (response.status === 200 || response.status === 201) {
             return success();
+        }else if(response.status === 400){
+            return fail();
         }
         const refresh_token = getCookie('refresh_token');
         if (response.status === 401 && refresh_token) {

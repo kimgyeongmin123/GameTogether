@@ -50,14 +50,20 @@
         });
 
         function success(response) {
-            let chatRoomId = response.chatRoomId;
+            response.text().then(text => {
+                console.log('text 출력.', text);
+                const data = JSON.parse(text);
+                console.log('이 번호의 채팅방으로 갈거임.', data.id);
+                window.open("/chatRoom/" + data.id, "_blank");
+            }).catch(error => {
+                console.error('Failed to read response body:', error);
+            });
 //          새 창 생성
-//            window.open("/chatRoom/" + chatRoomId, "_blank");
+//
         }
 
         function fail() {
-            console.error("Failed to create chat room:", error);
-            alert('채팅 생성을 실패했습니다.');
+            alert('내가 쓴 글은 채팅을 할 수 없습니다.');
         }
 
         httpRequest('POST',`/api/ChatRoom`, body, success, fail);
@@ -73,7 +79,7 @@ const deleteButton = document.getElementById('delete-btn');
 if (deleteButton) {
     deleteButton.addEventListener('click', event => {
         let id = document.getElementById('article-id').value;
-        function success() {
+        function success(response) {
             alert('삭제가 완료되었습니다.');
             location.replace('/articles');
         }
@@ -118,7 +124,7 @@ function httpRequest(method, url, body, success, fail) {
     console.log(localStorage.getItem('access_token'));
     console.log('response.status:', response.status);
         if (response.status === 200 || response.status === 201) {
-            return success();
+            return success(response);
         }
         const refresh_token = getCookie('refresh_token');
         if (response.status === 401 && refresh_token) {

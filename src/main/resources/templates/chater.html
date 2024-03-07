@@ -32,10 +32,6 @@
 
         const username = "userName";
 
-        $("#disconn").on("click", (e) => {
-            disconnect();
-        })
-
         $("#button-send").on("click", (e) => {
             send();
         });
@@ -48,6 +44,7 @@
 
         function send(){
 
+// 입력한 메시지 msg 에 담기
             let msg = document.getElementById("msg");
 
             console.log(username + ":" + msg.value);

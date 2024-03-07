@@ -24,9 +24,7 @@ public class BlogService {
 
 //    블로그 글 추가
     public Article save(AddArticleRequest request, String userName){
-        User user = userRepository.findByEmail(userName)
-                .orElseThrow(() -> new IllegalArgumentException("not found: " + userName));
-        return blogRepository.save(request.toEntity(user.getNickname()));
+        return blogRepository.save(request.toEntity(userName));
     }
 
 //    글 전체 조회
@@ -66,6 +64,7 @@ public class BlogService {
 //    본인이 작성했는지 확인
     private static void authorizeArticleAuthor(Article article){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("userName, article.getAuthor()" + userName + article.getAuthor());
 
         if(!article.getAuthor().equals(userName)){
             throw new IllegalArgumentException("not authorized");

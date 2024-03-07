@@ -39,7 +39,7 @@ public class BlogViewController {
 
 //    글 상세조회
     @GetMapping("/articles/{id}")
-    public String getArticle(@PathVariable long id, Model model, Principal principal){
+    public String getArticle(@PathVariable long id, Model model){
 
         Article article = blogService.findById(id);
         model.addAttribute("article", new ArticleViewResponse(article));

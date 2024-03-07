@@ -4,6 +4,7 @@ import com.example.demo.domain.dto.chat.AddChatRoomRequest;
 import com.example.demo.domain.dto.chat.ChatRoomResponse;
 import com.example.demo.domain.entity.ChatRoom;
 import com.example.demo.domain.entity.User;
+import com.example.demo.domain.repository.UserRepository;
 import com.example.demo.domain.service.ChatService;
 import com.example.demo.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,37 +25,37 @@ public class ChatApiController {
     @Autowired
     private final ChatService chatService;
 
-    @Autowired
-    private final UserService userService;
-
     @PostMapping("/api/ChatRoom")
     public ResponseEntity<ChatRoom> addChatRoom(@RequestBody AddChatRoomRequest request, Principal principal) {
 
-        System.out.println("채팅룸 생성 컨트롤러 : " + request.getAuthor() + request.getSelectedGame());
-        String author = request.getAuthor();
-        String selectedGame = request.getSelectedGame();
+        System.out.println("채팅룸 컨트롤러 : " + request.getAuthor() + request.getSelectedGame());
 
-        ChatRoom savedChatRoom = chatService.save(request, principal.getName());
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedChatRoom);
-    }
-
-    static class ChatRequest {
-        private Long articleId;
-        private String articleAuthor;
-
-        // getters and setters
-    }
-
-    static class CreateChatRoomResponse {
-        private Long chatRoomId;
-
-        public CreateChatRoomResponse(Long chatRoomId) {
-            this.chatRoomId = chatRoomId;
+        if(Objects.equals(request.getAuthor(), principal.getName())){
+            System.out.println("작성자와 현재 로그인한 유저가 동일하다.");
+            return ResponseEntity.badRequest().body(null);
         }
 
-        // getters and setters
+        //방번호, 본인 닉네임으로 방이 존재하는지 확인(true/false)
+        boolean hasChatRoom = chatService.hasChatRoom(request, principal.getName());
+        System.out.println("방 존재 확인 : " + hasChatRoom);
+
+        if(hasChatRoom){
+            //방이 이미 존재한다면 채팅방 객체 찾아서 반환
+            ChatRoom chatRoom = chatService.findByIdAndUsername(request, principal.getName());
+            System.out.println("chatRoom : " + chatRoom);
+            return ResponseEntity.ok()
+                    .body(chatRoom);
+        }else{
+            //방이 존재하지 않는다면 방 생성
+            ChatRoom savedChatRoom = chatService.save(request, principal.getName());
+            System.out.println("chatRoom : " + savedChatRoom);
+            //채팅방 Entity 반환
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(savedChatRoom);
+        }
+
+
     }
+
 
 }
