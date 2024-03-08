@@ -12,7 +12,10 @@
     <div class="container">
         <div class="col-6">
             <input type="hidden" id="chatRoom-id" th:value="${chatRoom.id}">
-            <label><span th:text="${chatRoom.author}"></span>님 과의 <p></p>매칭 <b>채팅방</b></label>
+            <input type="hidden" id="article-id" th:value="${chatRoom.articleId}">
+            <input type="hidden" id="author" th:value="${chatRoom.author}">
+            <input type="hidden" id="selectedGame" th:value="${chatRoom.selectedGame}">
+
         </div>
         <div>
             <div id="msgArea" class="col"></div>
@@ -29,6 +32,7 @@
 </div>
 
 <script>
+    var username;
     document.addEventListener('DOMContentLoaded', function() {
     // 페이지가 로드되었을 때
     var token = localStorage.getItem('access_token');
@@ -52,6 +56,7 @@ function fetchUserInfo(token) {
                 console.log('text 출력.', text);
                 const data = JSON.parse(text);
                 console.log('로그인한 유저 아이디 : ', data.username);
+                username = data.username;
             }).catch(error => {
                 console.error('Failed to read response body:', error);
             });
