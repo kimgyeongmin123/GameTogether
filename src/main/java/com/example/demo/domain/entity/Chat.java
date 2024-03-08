@@ -21,14 +21,11 @@ public class Chat {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "articleId", nullable = false)
-    private Long articleId;
+    @Column(name = "roomId", nullable = false)
+    private Long roomId;
 
     @Column(name = "sender", nullable = false)
     private String sender;
-
-    @Column(name = "receiver", nullable = false)
-    private String receiver;
 
     @Column(name = "message")
     private String message;
@@ -38,10 +35,9 @@ public class Chat {
     private LocalDateTime createdAt;
 
     @Builder
-    public Chat(Long articleId, String sender, String receiver, String message){
-        this.articleId = articleId;
+    public Chat(Long roomId, String sender, String message){
+        this.roomId = roomId;
         this.sender = sender;
-        this.receiver = receiver;
         this.message = message;
     }
 }

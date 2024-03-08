@@ -2,9 +2,12 @@ package com.example.demo.domain.service;
 
 import com.example.demo.domain.dto.article.AddArticleRequest;
 import com.example.demo.domain.dto.chat.AddChatRoomRequest;
+import com.example.demo.domain.dto.chat.ChatMessage;
 import com.example.demo.domain.entity.Article;
+import com.example.demo.domain.entity.Chat;
 import com.example.demo.domain.entity.ChatRoom;
 import com.example.demo.domain.entity.User;
+import com.example.demo.domain.repository.ChatRepository;
 import com.example.demo.domain.repository.ChatRoomRepository;
 import com.example.demo.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +19,11 @@ public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
 
+    private final ChatRepository chatRepository;
+
     private final UserRepository userRepository;
 
-    public ChatRoom save(AddChatRoomRequest request, String userName){
+    public ChatRoom saveRoom(AddChatRoomRequest request, String userName){
         return chatRoomRepository.save(request.toEntity(userName));
     }
 
@@ -36,5 +41,10 @@ public class ChatService {
         System.out.println("채팅룸 찾기 서비스 : " + id);
         return chatRoomRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("not found: " + id));
+    }
+
+    //메시지저장
+    public Chat saveChat(Long roomId, ChatMessage chatmessage){
+        return chatRepository.save(chatmessage.toEntity(roomId));
     }
 }

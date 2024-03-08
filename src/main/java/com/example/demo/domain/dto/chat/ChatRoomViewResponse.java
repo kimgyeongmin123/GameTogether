@@ -13,11 +13,11 @@ public class ChatRoomViewResponse {
     private String selectedGame;
     private String userName;
 
-    public ChatRoomViewResponse(ChatRoom chatRoom){
+    public ChatRoomViewResponse(ChatRoom chatRoom, String username){
         this.id = chatRoom.getId();
         this.articleId = chatRoom.getArticleId();
         this.author = chatRoom.getAuthor();
         this.selectedGame = chatRoom.getSelectedGame();
-        this.userName = chatRoom.getUserName();
+        this.userName = username;
     }
 }

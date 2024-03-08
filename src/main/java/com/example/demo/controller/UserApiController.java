@@ -1,35 +1,28 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.dto.user.AddUserRequest;
-import com.example.demo.domain.dto.user.WebLoginRequest;
-import com.example.demo.domain.service.TokenService;
-import com.example.demo.domain.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.example.demo.domain.dto.user.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.security.Principal;
+
+@RestController
 @RequiredArgsConstructor
 public class UserApiController {
 
-    private final UserService userService;
+    @GetMapping("/api/userinfo")
+    public ResponseEntity<UserInfoResponse> getUserInfo(Principal principal) {
 
-    @PostMapping("/user")
-    public String signup(AddUserRequest request){
-        userService.save(request);
-        return "redirect:/login";
-    }
+        String username = principal.getName();
 
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response){
-        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/login";
+        System.out.println(username);
+
+        UserInfoResponse userInfoResponse = new UserInfoResponse(username);
+
+        return ResponseEntity.ok()
+                .body(userInfoResponse);
     }
 }

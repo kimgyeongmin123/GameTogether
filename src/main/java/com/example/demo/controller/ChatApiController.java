@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,7 +48,7 @@ public class ChatApiController {
                     .body(chatRoom);
         }else{
             //방이 존재하지 않는다면 방 생성
-            ChatRoom savedChatRoom = chatService.save(request, principal.getName());
+            ChatRoom savedChatRoom = chatService.saveRoom(request, principal.getName());
             System.out.println("chatRoom : " + savedChatRoom);
             //채팅방 Entity 반환
             return ResponseEntity.status(HttpStatus.CREATED)
