@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.dto.article.AddArticleRequest;
 import com.example.demo.domain.dto.article.ArticleResponse;
-import com.example.demo.domain.dto.article.UpdateArticleRequest;
+import com.example.demo.domain.dto.article.ArticleViewResponse;
 import com.example.demo.domain.entity.Article;
 import com.example.demo.domain.service.BlogService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class BlogApiController {
+public class ArticleApiController {
 
     private final BlogService blogService;
 
@@ -71,4 +71,18 @@ public class BlogApiController {
 //        return ResponseEntity.ok()
 //                .body(updatedArticle);
 //    }
+
+    @GetMapping("/api/myArticle")
+    public ResponseEntity<List<ArticleViewResponse>> myArticle(Principal principal){
+        System.out.println("내가 쓴 글 조회 컨트롤러 누구? : " + principal.getName());
+        List<ArticleViewResponse> myArticles = blogService.findByAuthor(principal.getName())
+                .stream()
+                .map(ArticleViewResponse::new)
+                .toList();
+
+        System.out.println("찾은 게시물 : " + myArticles);
+
+        return ResponseEntity.ok()
+                .body(myArticles);
+    }
 }

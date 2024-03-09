@@ -3,23 +3,21 @@ package com.example.demo.controller;
 import com.example.demo.domain.dto.article.ArticleListViewResponse;
 import com.example.demo.domain.dto.article.ArticleViewResponse;
 import com.example.demo.domain.entity.Article;
-import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.BlogService;
 import com.example.demo.domain.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class BlogViewController {
+public class WebViewController {
 
     private final BlogService blogService;
 
@@ -59,5 +57,15 @@ public class BlogViewController {
         }
 
         return "newArticle";
+    }
+
+    @GetMapping("/my-article")
+    public String myArticle(){
+        return "myArticle";
+    }
+
+    @GetMapping("/chat-room")
+    public String chatRoom(){
+        return "chatRoom";
     }
 }

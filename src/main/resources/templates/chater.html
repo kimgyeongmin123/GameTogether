@@ -43,28 +43,12 @@
 </div>
 
 
-
+<script src="/js/apiRequest.js"></script>
 <script>
     var sender;
     document.addEventListener('DOMContentLoaded', function() {
-    // 페이지가 로드되었을 때
-    var token = localStorage.getItem('access_token');
-    if (token) {
-        fetchUserInfo(token);
-    } else {
-        console.error('액세스 토큰이 없습니다.');
-    }
-});
 
-function fetchUserInfo(token) {
-    fetch('/api/userinfo', {
-        method: 'GET',
-        headers: {
-            Authorization: 'Bearer ' + token,
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => {
+    function success(response) {
         response.text().then(text => {
                 console.log('text 출력.', text);
                 const data = JSON.parse(text);
@@ -73,11 +57,16 @@ function fetchUserInfo(token) {
             }).catch(error => {
                 console.error('Failed to read response body:', error);
             });
-    })
-    .catch(error => {
-        console.error('Error fetching user information:', error);
-    });
-}
+        }
+
+        function fail() {
+            alert('내가 쓴 목록을 조회실패했습니다.');
+            location.replace('/articles');
+        }
+
+        httpRequest('GET',`/api/userinfo`, null, success, fail);
+
+});
 </script>
 
 <script th:inline="javascript">

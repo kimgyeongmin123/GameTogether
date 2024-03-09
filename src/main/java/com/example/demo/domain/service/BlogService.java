@@ -70,4 +70,8 @@ public class BlogService {
             throw new IllegalArgumentException("not authorized");
         }
     }
+
+    public List<Article> findByAuthor(String author){
+        return blogRepository.findByAuthor(author);
+    }
 }

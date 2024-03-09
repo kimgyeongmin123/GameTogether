@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>ArticleList</title>
+    <title>chatRoom</title>
 
-<!--    Bootstrap-->
+    <!--    Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
@@ -21,26 +21,7 @@
     <button type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|" class="btn btn-primary">채팅방</button>
 
 
-    <div class="card" th:each="item : ${articles}">
-        <div class="card-header" th:text="${item.id}">
-            ArticleId
-        </div>
-        <div class="card-body">
-            <div>
-                <p th:text="${item.selectedGame}"></p>
-            </div>
-            <a th:href="@{/articles/{id}(id=${item.id})}">
-            <p class="card-title" th:text="${item.title}">ArticleTitle</p>
-            <p class="author" th:text="${item.author}">ArticleAuthor</p>
-            </a>
-        </div>
-    </div>
-
-    <button type="button" class="btn btn-primary" onclick="location.href='/logout'">로그아웃</button>
 </main>
-
-<script src="/js/token.js"></script>
-<script src="/js/apiRequest.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>myArticle</title>
+
+    <!--    Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<header>
+    <a href="/articles"><h1>GameTogether! 같이할래?</h1></a>
+    <h5>나랑 같이 게임할사람~?</h5>
+</header>
+
+<main>
+    <button type="button" id="createArticle-btn" th:onclick="|location.href='@{/new-article}'|" class="btn btn-primary">글 등록</button>
+    <button type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|" class="btn btn-primary">내가 쓴 글</button>
+    <button type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|" class="btn btn-primary">채팅방</button>
+
+
+    <div class="card" id="card">
+
+    </div>
+
+</main>
+<script src="/js/apiRequest.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+        function success(response) {
+            response.json().then(articleList => {
+                console.log('내가 쓴 글 조회 결과:', articleList);
+
+                articleList.forEach(function(article) {
+                    $("#card").append(
+                            "<div class = 'card-body'><div><p>"+article.selectedGame+"</p></div><a href='/articles/"+article.id+"'><p class='card-title'>"+article.title+"</p><p class='author'>"+article.author+"</p></a></div>"
+                    );
+                });
+
+                }).catch(error => {
+                    console.error('Failed to parse JSON response:', error);
+                });
+        }
+
+        function fail() {
+            alert('내가 쓴 목록을 조회실패했습니다.');
+            location.replace('/articles');
+        }
+
+        httpRequest('GET',`/api/myArticle`, null, success, fail);
+});
+</script>
+</body>
+</html>
