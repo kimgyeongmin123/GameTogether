@@ -34,7 +34,7 @@
                 <div class="input-group mb-3">
                     <input type="text" id="message" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+                        <button class="btn btn-outline-secondary" type="button" id="send">전송</button>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
 
 
 <script>
-    var username;
+    var sender;
     document.addEventListener('DOMContentLoaded', function() {
     // 페이지가 로드되었을 때
     var token = localStorage.getItem('access_token');
@@ -69,7 +69,7 @@ function fetchUserInfo(token) {
                 console.log('text 출력.', text);
                 const data = JSON.parse(text);
                 console.log('로그인한 유저 아이디 : ', data.username);
-                username = data.username;
+                sender = data.username;
             }).catch(error => {
                 console.error('Failed to read response body:', error);
             });
@@ -84,7 +84,6 @@ function fetchUserInfo(token) {
     var stompClient = null;
     var roomId = document.getElementById('chatRoom-id').value;
     var chatList = null;
-    var sender = username;
 
 
     function setConnected(connected){
@@ -130,14 +129,17 @@ function fetchUserInfo(token) {
 
 //WebSocketConfig 에서 설정해준 /send 로 메세지 보냄
     function sendChat(){
-        if($("#message").val() != ""){
+        var messageInput = document.getElementById("message").value;
+
+        if(messageInput != ""){
+        console.log('메시지를 보내는 sendChat() 메서드 호출, 보내는 사람 : ', sender);
             stompClient.send("/send/"+roomId, {},
                 JSON.stringify({
                     'sender':sender,
-                    'message':$("message").val()
+                    'message':messageInput
                 })
             );
-            $("#message").val('');
+            document.getElementById("message").value = '';
         }
     }
 
