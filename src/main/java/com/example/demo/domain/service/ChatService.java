@@ -13,6 +13,8 @@ import com.example.demo.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ChatService {
@@ -46,5 +48,10 @@ public class ChatService {
     //메시지저장
     public Chat saveChat(Long roomId, ChatMessage chatmessage){
         return chatRepository.save(chatmessage.toEntity(roomId));
+    }
+
+//    내가 보냈거나 받은 메시지가 포함된 채팅방 조회
+    public List<ChatRoom> findByUserIdInChat(String username){
+        return chatRoomRepository.findByUserIdInChat(username);
     }
 }

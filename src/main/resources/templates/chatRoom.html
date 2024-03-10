@@ -7,6 +7,11 @@
     <!--    Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="/js/apiRequest.js"></script>
+    <script src="/js/myName.js"></script>
+
 </head>
 <body>
 
@@ -20,8 +25,49 @@
     <button type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|" class="btn btn-primary">내가 쓴 글</button>
     <button type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|" class="btn btn-primary">채팅방</button>
 
+    <h4>내 채팅 목록</h4>
 
+    <div id="chatRoomList"></div>
 </main>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+            function success(response) {
+                response.json().then(chatRoomList => {
+                    console.log('채팅방 조회 결과:', chatRoomList);
+                    console.log('로그인한 이메일:', myName);
+
+                    chatRoomList.forEach(function(chatRoom) {
+
+                        var displayName = (myName === chatRoom.author) ? chatRoom.username : chatRoom.author;
+
+                        $("#chatRoomList").append(
+                                "<div class = 'chatRoomList-body' onclick='myChat("+chatRoom.id+")'><div><p>"+chatRoom.selectedGame+"</p></div><p>"+displayName+"</p></div>"
+                        );
+
+                        function myChat() {
+                            window.open("/chatRoom/" + chatRoom.articleId, "_blank", "width=600, height=400, location=no");
+                        }
+                    });
+
+                    }).catch(error => {
+                        console.error('Failed to parse JSON response:', error);
+                    });
+            }
+
+            function fail() {
+                alert('채팅방을 조회실패했습니다.');
+                location.replace('/articles');
+            }
+
+            httpRequest('GET',`/api/ChatRoom`, null, success, fail);
+    });
+
+    function myChat(chatRoomId) {
+            window.open("/chatRoom/" + chatRoomId, "_blank", "width=600, height=400, location=no");
+        }
+</script>
 
 </body>
 </html>

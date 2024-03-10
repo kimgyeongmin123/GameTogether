@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.domain.dto.article.ArticleViewResponse;
 import com.example.demo.domain.dto.chat.AddChatRoomRequest;
 import com.example.demo.domain.dto.chat.ChatRoomResponse;
+import com.example.demo.domain.dto.chat.ChatRoomViewResponse;
 import com.example.demo.domain.entity.ChatRoom;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.repository.UserRepository;
@@ -59,19 +60,19 @@ public class ChatApiController {
         }
     }
 
-//    @GetMapping("/api/ChatRoom")
-//    public ResponseEntity<List<ArticleViewResponse>> myArticle(Principal principal){
-//        System.out.println("내 채팅방 조회 컨트롤러 누구? : " + principal.getName());
-//        List<ArticleViewResponse> myArticles = blogService.findByAuthor(principal.getName())
-//                .stream()
-//                .map(ArticleViewResponse::new)
-//                .toList();
-//
-//        System.out.println("찾은 게시물 : " + myArticles);
-//
-//        return ResponseEntity.ok()
-//                .body(myArticles);
-//    }
+    @GetMapping("/api/ChatRoom")
+    public ResponseEntity<List<ChatRoomViewResponse>> myArticle(Principal principal){
+        System.out.println("내 채팅방 조회 컨트롤러 누구? : " + principal.getName());
+        List<ChatRoomViewResponse> myChatRoom = chatService.findByUserIdInChat(principal.getName())
+                .stream()
+                .map(ChatRoomViewResponse::new)
+                .toList();
+
+        System.out.println("찾은 채팅방 : " + myChatRoom);
+
+        return ResponseEntity.ok()
+                .body(myChatRoom);
+    }
 
 
 }

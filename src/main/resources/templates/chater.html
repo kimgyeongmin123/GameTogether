@@ -45,30 +45,7 @@
 
 
 <script src="/js/apiRequest.js"></script>
-<script>
-    var sender;
-    document.addEventListener('DOMContentLoaded', function() {
-
-    function success(response) {
-        response.text().then(text => {
-                console.log('text 출력.', text);
-                const data = JSON.parse(text);
-                console.log('로그인한 유저 아이디 : ', data.username);
-                sender = data.username;
-            }).catch(error => {
-                console.error('Failed to read response body:', error);
-            });
-        }
-
-        function fail() {
-            alert('내가 쓴 목록을 조회실패했습니다.');
-            location.replace('/articles');
-        }
-
-        httpRequest('GET',`/api/userinfo`, null, success, fail);
-
-});
-</script>
+<script src="/js/myName.js"></script>
 
 <script th:inline="javascript">
     var stompClient = null;
@@ -123,17 +100,17 @@
     function sendChat(){
         var messageInput = document.getElementById("message").value;
 
-        if(sender === author){
+        if(myName === author){
             receiver = username;
         } else{ receiver = author;}
 
         if(messageInput != ""){
-        console.log('메시지를 보내는 sendChat() 메서드 호출, 보내는 사람 : ', sender);
+        console.log('메시지를 보내는 sendChat() 메서드 호출, 보내는 사람 : ', myName);
         console.log('이 글을 쓴 사람 : ', author);
         console.log('받는 사람 : ', receiver);
             stompClient.send("/send/"+roomId, {},
                 JSON.stringify({
-                    'sender':sender,
+                    'sender':myName,
                     'receiver':receiver,
                     'message':messageInput
                 })
@@ -146,7 +123,7 @@
     function loadChat(chatList){
         if(chatList != null){
             for(chat in chatList){
-                if(chatList[chat].sender == sender){
+                if(chatList[chat].sender == myName){
                     $("#chatting").append(
                         "<div class = 'chatting_own'><tr><td>" + chatList[chat].message + "</td></tr></div>"
                     );
@@ -163,7 +140,7 @@
 
 
     function showChat(chatMessage) {
-        if (chatMessage.sender == sender) {
+        if (chatMessage.sender == myName) {
             $("#chatting").append(
                 "<div class = 'chatting_own'><tr><td>" + chatMessage.message + "</td></tr></div>"
             );
