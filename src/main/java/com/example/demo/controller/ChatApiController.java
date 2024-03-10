@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.dto.article.ArticleViewResponse;
 import com.example.demo.domain.dto.chat.AddChatRoomRequest;
 import com.example.demo.domain.dto.chat.ChatRoomResponse;
 import com.example.demo.domain.entity.ChatRoom;
@@ -12,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -54,9 +57,21 @@ public class ChatApiController {
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(savedChatRoom);
         }
-
-
     }
+
+//    @GetMapping("/api/ChatRoom")
+//    public ResponseEntity<List<ArticleViewResponse>> myArticle(Principal principal){
+//        System.out.println("내 채팅방 조회 컨트롤러 누구? : " + principal.getName());
+//        List<ArticleViewResponse> myArticles = blogService.findByAuthor(principal.getName())
+//                .stream()
+//                .map(ArticleViewResponse::new)
+//                .toList();
+//
+//        System.out.println("찾은 게시물 : " + myArticles);
+//
+//        return ResponseEntity.ok()
+//                .body(myArticles);
+//    }
 
 
 }

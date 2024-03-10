@@ -27,6 +27,9 @@ public class Chat {
     @Column(name = "sender", nullable = false)
     private String sender;
 
+    @Column(name = "receiver", nullable = false)
+    private String receiver;
+
     @Column(name = "message")
     private String message;
 
@@ -35,9 +38,10 @@ public class Chat {
     private LocalDateTime createdAt;
 
     @Builder
-    public Chat(Long roomId, String sender, String message){
+    public Chat(Long roomId, String sender, String receiver, String message){
         this.roomId = roomId;
         this.sender = sender;
+        this.receiver = receiver;
         this.message = message;
     }
 }

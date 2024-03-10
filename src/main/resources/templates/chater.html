@@ -21,6 +21,7 @@
             <input type="hidden" id="article-id" th:value="${chatRoom.articleId}">
             <input type="hidden" id="author" th:value="${chatRoom.author}">
             <input type="hidden" id="selectedGame" th:value="${chatRoom.selectedGame}">
+            <input type="hidden" id="username" th:value="${chatRoom.username}">
         </div>
 
         <div>
@@ -73,7 +74,9 @@
     var stompClient = null;
     var roomId = document.getElementById('chatRoom-id').value;
     var chatList = null;
-
+    var author = document.getElementById('author').value;
+    var username = document.getElementById('username').value;
+    var receiver = null;
 
     function setConnected(connected){
         if (connected) {
@@ -120,11 +123,18 @@
     function sendChat(){
         var messageInput = document.getElementById("message").value;
 
+        if(sender === author){
+            receiver = username;
+        } else{ receiver = author;}
+
         if(messageInput != ""){
         console.log('메시지를 보내는 sendChat() 메서드 호출, 보내는 사람 : ', sender);
+        console.log('이 글을 쓴 사람 : ', author);
+        console.log('받는 사람 : ', receiver);
             stompClient.send("/send/"+roomId, {},
                 JSON.stringify({
                     'sender':sender,
+                    'receiver':receiver,
                     'message':messageInput
                 })
             );

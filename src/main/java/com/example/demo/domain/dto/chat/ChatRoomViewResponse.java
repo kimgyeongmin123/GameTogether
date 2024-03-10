@@ -11,11 +11,13 @@ public class ChatRoomViewResponse {
     private Long articleId;
     private String author;
     private String selectedGame;
+    private String username; //대화신청자
 
     public ChatRoomViewResponse(ChatRoom chatRoom){
         this.id = chatRoom.getId();
         this.articleId = chatRoom.getArticleId();
         this.author = chatRoom.getAuthor();
         this.selectedGame = chatRoom.getSelectedGame();
+        this.username = chatRoom.getUserName();
     }
 }

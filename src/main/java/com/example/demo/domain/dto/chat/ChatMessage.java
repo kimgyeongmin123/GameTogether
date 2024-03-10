@@ -14,6 +14,7 @@ public class ChatMessage {
 
     private Long roomId;
     private String sender;
+    private String receiver;
     private String message;
 
 
@@ -21,14 +22,16 @@ public class ChatMessage {
         return Chat.builder()
                 .roomId(roomId)
                 .sender(sender)
+                .receiver(receiver)
                 .message(message)
                 .build();
     }
 
     @Builder
-    public ChatMessage(Long roomId, String sender, String message){
+    public ChatMessage(Long roomId, String sender, String receiver, String message){
         this.roomId = roomId;
         this.sender = sender;
+        this.receiver = receiver;
         this.message = message;
     }
 
