@@ -50,7 +50,7 @@
 <script th:inline="javascript">
     var stompClient = null;
     var roomId = document.getElementById('chatRoom-id').value;
-    var chatList = null;
+    var chatList = [[${chatList}]];
     var author = document.getElementById('author').value;
     var username = document.getElementById('username').value;
     var receiver = null;
@@ -68,7 +68,7 @@
 
     function connect(){
     console.log('connect으로 들어옴');
-        var socket = new SockJS("/ws-stomp");
+        var socket = new SockJS("http://localhost:8080/ws-stomp");
     console.log('socket : ', socket);
         stompClient = Stomp.over(socket);
         console.log('stompClient : ', stompClient);

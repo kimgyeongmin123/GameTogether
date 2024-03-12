@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.domain.dto.article.ArticleViewResponse;
 import com.example.demo.domain.dto.chat.ChatRoomViewResponse;
 import com.example.demo.domain.entity.Article;
+import com.example.demo.domain.entity.Chat;
 import com.example.demo.domain.entity.ChatRoom;
 import com.example.demo.domain.service.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +33,10 @@ public class ChatViewController {
         ChatRoom chatRoom = chatService.findById(id);
         System.out.println("채팅룸 불러오는 컨트롤러에서.. 채팅룸 정보 : " + chatRoom);
         model.addAttribute("chatRoom", new ChatRoomViewResponse(chatRoom));
+
+        List<Chat> chatList = chatService.findChatById(id);
+        System.out.println(id + "번 방에서 찾은 대화 내역 : " + chatList);
+        model.addAttribute("chatList", chatList);
 
 
         return "chater";

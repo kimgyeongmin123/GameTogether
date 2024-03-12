@@ -23,7 +23,6 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
 
-    private final UserRepository userRepository;
 
     public ChatRoom saveRoom(AddChatRoomRequest request, String userName){
         return chatRoomRepository.save(request.toEntity(userName));
@@ -53,5 +52,9 @@ public class ChatService {
 //    내가 보냈거나 받은 메시지가 포함된 채팅방 조회
     public List<ChatRoom> findByUserIdInChat(String username){
         return chatRoomRepository.findByUserIdInChat(username);
+    }
+
+    public List<Chat> findChatById(Long id){
+        return chatRepository.findByRoomId(id);
     }
 }

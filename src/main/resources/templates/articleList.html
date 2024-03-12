@@ -20,7 +20,6 @@
     <button type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|" class="btn btn-primary">내가 쓴 글</button>
     <button type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|" class="btn btn-primary">채팅방</button>
 
-
     <div class="card" th:each="item : ${articles}">
         <div class="card-header" th:text="${item.id}">
             ArticleId
