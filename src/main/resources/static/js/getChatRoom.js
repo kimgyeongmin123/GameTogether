@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         var displayName = (myName === chatRoom.author) ? chatRoom.username : chatRoom.author;
 
                         $("#chatRoomList").append(
-                                "<div class = 'chatRoomList-body' onclick='myChat("+chatRoom.id+")'><div><p>"+chatRoom.selectedGame+"</p></div><p>"+displayName+"</p></div>"
+                                "<div class='room'><div class='game' onclick='myChat("+chatRoom.id+")'>"+chatRoom.selectedGame+"</div><div class='other'>"+displayName+"</div></div>"
                         );
 
                         function myChat() {

@@ -9,50 +9,186 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <style>
+        body{
+            height : 100vw;
+            width : 70vw;
+            margin : auto;
+        }
+        header{
+            margin-bottom:60px;
+        }
+        header>a{
+            display : block;
+            text-align: center;
+            margin : 2% 20%;
+        }
+
+        nav{
+            display: flex;
+            justify-content:space-between;
+            padding : 5px 80px;
+            margin-bottom : 20px;
+        }
+
+        header button {
+            box-shadow: 3px 4px 0px 0px #02336b;
+            background-color:#2146b5;
+            border-radius:15px;
+            border:1px solid #0971e8;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:14px;
+            font-weight:500;
+            padding:5px 16px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #485e75;
+        }
+        header button:hover {
+            background-color:#f24437;
+        }
+        header button:active {
+            position:relative;
+            top:2px;
+        }
+
+        header .search{
+            width : 300px;
+        }
+        select:active{border : 1px solid gray;}
+        footer{
+            padding : 10px 0px;
+            margin-top : 60px;
+            width : 100%;
+            background-color: rgba(238, 238, 238, 0.668);
+            font-size: 13px;
+        }
+
+        footer div{
+            width : 1200px;
+            margin : 20px auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border-bottom: 1px solid gray;
+        }
+
+        th, td {
+            border-bottom: 1px solid gray;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            color: rgb(20, 20, 20);
+            font-weight: bold;
+            text-align: center;
+        }
+        .title_td{
+            width:45%;
+            padding-left:50px;
+            text-align:left;
+        }
+    </style>
 </head>
 <body>
 
 <header>
-    <a href="/articles"><h1>GameTogether! 같이할래?</h1></a>
-    <h5>나랑 같이 게임할사람~?</h5>
+    <a href="/articles"><img src="/img/GTlogo_S.png" width="auto" height="100px;"></a>
+    <nav>
+        <div>
+            <button class="blue-btn" type="button" id="createArticle-btn" th:onclick="|location.href='@{/new-article}'|">글 등록</button>
+        </div>
+        <div class="input-group search">
+            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                <option selected>모든 게임</option>
+                <option value="리그오브레전드">리그오브레전드</option>
+                <option value="오버워치">오버워치</option>
+                <option value="배틀그라운드">배틀그라운드</option>
+                <option value="기타">기타</option>
+            </select>
+            <button type="button">Button</button>
+        </div>
+        <div>
+            <button class="blue-btn" type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|">내가 쓴 글</button>
+            <button class="blue-btn" type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|">채팅방</button>
+            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        </div>
+    </nav>
 </header>
 
 <main>
-    <button type="button" id="createArticle-btn" th:onclick="|location.href='@{/new-article}'|" class="btn btn-primary">글 등록</button>
-    <button type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|" class="btn btn-primary">내가 쓴 글</button>
-    <button type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|" class="btn btn-primary">채팅방</button>
-
-
-    <div class="card" id="card">
-
-    </div>
+    <h4>내가 쓴 글</h4>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:20%;">게임</th>
+                <th style="width:40%;">제목</th>
+                <th style="width:20%;">글쓴이</th>
+                <th style="width:20%;">작성일</th>
+            </tr>
+        </thead>
+        <tbody id="card">
+        </tbody>
+    </table>
 
 </main>
+
+<footer>
+    <div class="footer-top">(주)하모하모</div>
+    <div class="footer-bottom">
+        (주)하모하모</br>
+        주소:대구광역시 하모구 하모로 718, 하모빌딩 2층 | 김경민 | 사업자생년월일 : 2000-07-18</br>
+        이메일:orange761943@naver.com | 겨울이 가면 봄이 온다.
+    </div>
+</footer>
+
 <script src="/js/apiRequest.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-        function success(response) {
-            response.json().then(articleList => {
-                console.log('내가 쓴 글 조회 결과:', articleList);
+    document.addEventListener('DOMContentLoaded', function() {
+            function success(response) {
+                response.json().then(articleList => {
+                    console.log('내가 쓴 글 조회 결과:', articleList);
 
-                articleList.forEach(function(article) {
-                    $("#card").append(
-                            "<div class = 'card-body'><div><p>"+article.selectedGame+"</p></div><a href='/articles/"+article.id+"'><p class='card-title'>"+article.title+"</p><p class='author'>"+article.author+"</p></a></div>"
-                    );
-                });
+                    articleList.forEach(function(article) {
 
-                }).catch(error => {
-                    console.error('Failed to parse JSON response:', error);
-                });
-        }
+                        // Date 객체를 원하는 형식으로 포맷팅합니다.
+                        var formattedDate = formatDate(article.createdAt);
 
-        function fail() {
-            alert('내가 쓴 목록을 조회실패했습니다.');
-            location.replace('/articles');
-        }
+                        // 포맷팅된 날짜를 테이블에 추가합니다.
+                        $("#card").append(
+                            "<tr><td>"+article.selectedGame+"</td><td class='title_td'><a href='/articles/"+article.id+"'>"+article.title+"</a></td><td>"+article.author+"</td><td>"+formattedDate+"</td></tr>"
+                        );
+                    });
 
-        httpRequest('GET',`/api/myArticle`, null, success, fail);
-});
+                    }).catch(error => {
+                        console.error('Failed to parse JSON response:', error);
+                    });
+            }
+
+            function fail() {
+                alert('내가 쓴 목록을 조회실패했습니다.');
+                location.replace('/articles');
+            }
+
+            httpRequest('GET',`/api/myArticle`, null, success, fail);
+    });
+
+    function formatDate(dateArray) {
+        var date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5], dateArray[6]);
+
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var day = String(date.getDate()).padStart(2, '0');
+        var hours = String(date.getHours()).padStart(2, '0');
+        var minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+    }
 </script>
 </body>
 </html>

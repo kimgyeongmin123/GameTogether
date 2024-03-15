@@ -12,24 +12,133 @@
     <script src="/js/apiRequest.js"></script>
     <script src="/js/myName.js"></script>
 
+    <style>
+        body{
+            height : 100vw;
+            width : 70vw;
+            margin : auto;
+        }
+        header{
+            margin-bottom:60px;
+        }
+        header>a{
+            display : block;
+            text-align: center;
+            margin : 2% 20%;
+        }
+
+        nav{
+            display: flex;
+            justify-content:space-between;
+            padding : 5px 80px;
+            margin-bottom : 20px;
+        }
+
+        header button {
+            box-shadow: 3px 4px 0px 0px #02336b;
+            background-color:#2146b5;
+            border-radius:15px;
+            border:1px solid #0971e8;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:14px;
+            font-weight:500;
+            padding:5px 16px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #485e75;
+        }
+        header button:hover {
+            background-color:#f24437;
+        }
+        header button:active {
+            position:relative;
+            top:2px;
+        }
+
+        header .search{
+            width : 300px;
+        }
+        select:active{border : 1px solid gray;}
+        footer{
+            padding : 10px 0px;
+            margin-top : 60px;
+            width : 100%;
+            background-color: rgba(238, 238, 238, 0.668);
+            font-size: 13px;
+        }
+
+        footer div{
+            width : 1200px;
+            margin : 20px auto;
+        }
+
+        #chatRoomList{
+            width : 100%;
+
+            display : flex;
+            flex-wrap: wrap;
+        }
+
+        .room{
+            border : 1px solid rgb(202, 202, 202);
+            border-radius: 10px;
+            margin: 16.5px;
+            cursor: pointer;
+            padding : 10px;
+        }
+        .game{
+            font-weight: bold;
+            color: rgb(1, 1, 87);
+            margin-bottom : 15px;
+        }
+
+    </style>
 </head>
 <body>
 
 <header>
-    <a href="/articles"><h1>GameTogether! 같이할래?</h1></a>
-    <h5>나랑 같이 게임할사람~?</h5>
+    <a href="/articles"><img src="/img/GTlogo_S.png" width="auto" height="100px;"></a>
+    <nav>
+        <div>
+            <button class="blue-btn" type="button" id="createArticle-btn" th:onclick="|location.href='@{/new-article}'|">글 등록</button>
+        </div>
+        <div class="input-group search">
+            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                <option selected>모든 게임</option>
+                <option value="리그오브레전드">리그오브레전드</option>
+                <option value="오버워치">오버워치</option>
+                <option value="배틀그라운드">배틀그라운드</option>
+                <option value="기타">기타</option>
+            </select>
+            <button type="button">Button</button>
+        </div>
+        <div>
+            <button class="blue-btn" type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|">내가 쓴 글</button>
+            <button class="blue-btn" type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|">채팅방</button>
+            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        </div>
+    </nav>
 </header>
 
 <main>
-    <button type="button" id="createArticle-btn" th:onclick="|location.href='@{/new-article}'|" class="btn btn-primary">글 등록</button>
-    <button type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|" class="btn btn-primary">내가 쓴 글</button>
-    <button type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|" class="btn btn-primary">채팅방</button>
+    <h4 style="margin:20px;">채팅 목록</h4>
 
-    <h4>내 채팅 목록</h4>
+    <div id="chatRoomList">
 
-    <div id="chatRoomList"></div>
+
+    </div>
 </main>
 
+<footer>
+    <div class="footer-top">(주)하모하모</div>
+    <div class="footer-bottom">
+        (주)하모하모</br>
+        주소:대구광역시 하모구 하모로 718, 하모빌딩 2층 | 김경민 | 사업자생년월일 : 2000-07-18</br>
+        이메일:orange761943@naver.com | 겨울이 가면 봄이 온다.
+    </div>
+</footer>
 
 <script src="/js/getChatRoom.js"></script>
 
