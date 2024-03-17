@@ -152,7 +152,7 @@
                         var displayName = (myName === chatRoom.author) ? chatRoom.username : chatRoom.author;
 
                         $("#chatRoomList").append(
-                                "<div class='room'><div class='game' onclick='myChat("+chatRoom.id+")'>"+chatRoom.selectedGame+"</div><div class='other'>"+displayName+"</div></div>"
+                                "<div class='room' onclick='myChat("+chatRoom.id+")'><div class='game'>"+chatRoom.selectedGame+"</div><div class='other'>"+displayName+"</div></div>"
                         );
 
                         function myChat() {
@@ -174,7 +174,7 @@
     });
 
     function myChat(chatRoomId) {
-            window.open("/chatRoom/" + chatRoomId, "_blank", "width=600, height=400, location=no");
+            window.open("/chatRoom/" + chatRoomId, "_blank", "width=450, height=600, location=no");
         }
 </script>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,68 @@
 
     <!--    Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        body{
+            width : 100vw;
+            font-size: 15px;
+        }
+        #box{
+            display:flex;
+            flex-direction: column;
+            height: auto;
+            margin-bottom : 17%;
+            width : 100%;
+        }
+
+        .chatting_own_box{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chatting_own{
+            background-color: rgb(208, 218, 235);
+            padding : 5px 10px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            width : auto;
+            display: inline-block;
+            text-align: right;
+        }
+
+        .chatting_box{
+            margin-bottom:20px;
+        }
+        .chatting>.other_sender{
+            font-weight: bold;
+            margin-left : 10px;
+        }
+        .chatting>.other_message{
+            background-color: rgb(240, 215, 215);
+            border-radius: 15px;
+            padding : 5px 10px;
+            max-width: 330px;
+            word-wrap: break-word;
+            width : auto;
+
+            display: inline-block;
+        }
+
+
+        .input_box{
+            position: fixed;
+            bottom : 0;
+            left : 0;
+            width : 100%;
+
+            display:flex;
+            padding : 3%;
+            background-color: white;
+        }
+        .input_box>input{
+            flex-grow: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,20 +87,15 @@
         </div>
 
         <div>
-            <div class="col-md-12">
-                <table id="chatting">
+            <div id="box">
 
-                </table>
             </div>
 
-            <div class="col-6">
-                <div class="input-group mb-3">
-                    <input type="text" id="message" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="send">전송</button>
-                    </div>
-                </div>
+            <div class="input_box">
+                <input type="text" id="message" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="send">전송</button>
             </div>
+
         </div>
     </div>
 </div>
@@ -58,18 +115,18 @@
     function setConnected(connected){
         if (connected) {
         console.log('setConnected의 true');
-            $("#conversation").show();
+            $("#box").show();
         }else {
         console.log('setConnected의 false');
-            $("#conversation").hide();
+            $("#box").hide();
         }
     }
 
 
     function connect(){
-    console.log('connect으로 들어옴');
-        var socket = new SockJS("http://localhost:8080/ws-stomp");
-    console.log('socket : ', socket);
+        console.log('connect으로 들어옴');
+        var socket = new SockJS("/ws-stomp");
+        console.log('socket : ', socket);
         stompClient = Stomp.over(socket);
         console.log('stompClient : ', stompClient);
 
@@ -79,8 +136,10 @@
             console.log('Connected : ', frame);
             loadChat(chatList)
 
+            console.log('roomId : ', roomId);
 //특정 채팅방을 구독, 새로운 채팅 메시지가 도착할 때마다 표시하는 함수(showChat)
             stompClient.subscribe('/room/' + roomId, function(chatMessage){
+            console.log('쇼챗을 부르는 곳');
                 showChat(JSON.parse(chatMessage.body));
             });
         });
@@ -121,35 +180,37 @@
 
 
     function loadChat(chatList){
+    console.log('로드챗 진입..');
         if(chatList != null){
             for(chat in chatList){
                 if(chatList[chat].sender == myName){
-                    $("#chatting").append(
-                        "<div class = 'chatting_own'><tr><td>" + chatList[chat].message + "</td></tr></div>"
+                    $("#box").append(
+                        "<div class='chatting_own_box'><div></div><div class = 'chatting_own'>" + chatList[chat].message + "</div></div>"
                     );
                 } else {
-                    $("#chatting").append(
-                        "<div class = 'chatting'><tr><td>" + "[" + chatList[chat].sender + "] " + chatList[chat].message + "</td></tr></div>"
+                    $("#box").append(
+                        "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + chatList[chat].sender + "</div><div class = 'other_message'>" + chatList[chat].message + "</div></div></div>"
                     );
                 }
             }
         }
 //자동 스크롤
-        $('.col-md-12').scrollTop($('.col-md-12')[0].scrollHeight);
+        $('#box').scrollTop($('#box')[0].scrollHeight);
     }
 
 
     function showChat(chatMessage) {
+    console.log('쇼챗 진입...');
         if (chatMessage.sender == myName) {
-            $("#chatting").append(
-                "<div class = 'chatting_own'><tr><td>" + chatMessage.message + "</td></tr></div>"
+            $("#box").append(
+                "<div class='chatting_own_box'><div></div><div class = 'chatting_own'>" + chatMessage.message + "</div></div>"
             );
         } else {
-            $("#chatting").append(
-                "<div class = 'chatting'><tr><td>" + "[" + chatMessage.sender + "] " + chatMessage.message + "</td></tr></div>"
+            $("#box").append(
+                "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + chatMessage.sender + "</div><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
             );
         }
-        $('.col-md-12').scrollTop($('.col-md-12')[0].scrollHeight);
+        $('#box').scrollTop($('#box')[0].scrollHeight);
     }
 
 
@@ -168,6 +229,14 @@
     window.beforeunload = function (){
         disconnect();
     }
+</script>
+
+<script>
+    document.addEventListener("keydown", function(event) {
+      if (event.keyCode === 13) {
+        document.getElementById("send").click();
+      }
+    });
 </script>
 
 </body>
