@@ -84,4 +84,7 @@ public class WebViewController {
     public String chatRoom(){
         return "chatRoom";
     }
+
+    @GetMapping("/additional_info")
+    public String additional_info(){ return "additional_info";}
 }

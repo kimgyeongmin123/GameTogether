@@ -1,8 +1,10 @@
 package com.example.demo.domain.service;
 
 import com.example.demo.domain.dto.user.AddUserRequest;
+import com.example.demo.domain.dto.user.UpdateUserRequest;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,5 +34,14 @@ public class UserService {
     public User findByEmail(String email){
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+    }
+
+    @Transactional
+    public User update(User user, UpdateUserRequest request){
+
+        user.update_nickname(request.getNickname());
+        user.update_agegroup(request.getAgegroup());
+
+        return user;
     }
 }

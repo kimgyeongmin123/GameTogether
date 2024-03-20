@@ -1,4 +1,6 @@
 var myName;
+var myNickName;
+var myAgeGroup
 document.addEventListener('DOMContentLoaded', function() {
 
     function success(response) {
@@ -7,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = JSON.parse(text);
                 console.log('로그인한 유저 아이디 : ', data.username);
                 myName = data.username;
+                myNickName = data.nickname;
+                myAgeGroup = data.agegroup;
+                console.log('로그인한 유저 닉네임 : ', data.nickname);
+                console.log('로그인한 유저 나이대 : ', data.agegroup);
             }).catch(error => {
                 console.error('Failed to read response body:', error);
             });

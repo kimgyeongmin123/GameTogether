@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>정보 추가</title>
+
+    <!--    Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        body{
+            height : 100vw;
+            width : 70vw;
+            margin : auto;
+        }
+        header{
+            display: flex;
+            flex-direction : column;
+            align-items: center;
+        }
+        header img{
+            margin : 4%;
+            margin-top : 20px;
+        }
+        main{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        #submit-btn {
+            width : 350px;
+            height : 46px;
+            margin-top : 30px;
+            box-shadow: 3px 4px 0px 0px #8a2a21;
+            background-color:#c62d1f;
+            border-radius:18px;
+            border:1px solid #d02718;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:17px;
+            font-weight:bold;
+            padding:10px 39px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #810e05;
+        }
+        #submit-btn:hover {
+            background-color:#f24437;
+        }
+        #submit-btn:active {
+            position:relative;
+            top:1px;
+        }
+
+        main>form>div{
+            margin-top : 22px;
+            margin-bottom : 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/login"><img src="/img/GTlogo_S.png" width="auto" height="60vw;"></a>
+</header>
+
+<main>
+
+        <div>추가 정보를 입력하여 가입을 완료합니다.</div>
+        <div class="mb-3">
+            <label class="form-label">닉네임</label>
+            <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">나이</label>
+            <select class="form-select" id="agegroup" aria-label="Default select example" name="ageGroup">
+                <option value="10대 미만">10대 미만</option>
+                <option value="10대">10대</option>
+                <option value="20대">20대</option>
+                <option value="30대">30대</option>
+                <option value="40대">40대</option>
+                <option value="50대 이상">50대 이상</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-btn">가입하기</button>
+
+</main>
+<script src="/js/apiRequest.js"></script>
+<script>
+    const modifyButton = document.getElementById('submit-btn');
+
+    if (modifyButton) {
+        modifyButton.addEventListener('click', event => {
+
+            body = JSON.stringify({
+                nickname: document.getElementById('nickname').value,
+                agegroup: document.getElementById('agegroup').value
+            })
+
+            function success() {
+                alert('가입이 완료되었습니다.');
+                location.replace(`/articles`);
+            }
+
+            function fail() {
+                alert('가입을 실패했습니다.');
+                location.replace(`/login`);
+            }
+
+            httpRequest('PUT',`/api/userinfo`, body, success, fail);
+        });
+    }
+</script>
+</body>
+</html>

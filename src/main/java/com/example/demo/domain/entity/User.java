@@ -44,8 +44,14 @@ public class User implements UserDetails {
     }
 
 //    사용자 이름 변경
-    public User update(String nickname){
+    public User update_nickname(String nickname){
         this.nickname = nickname;
+
+        return this;
+    }
+
+    public User update_agegroup(String agegroup){
+        this.ageGroup = agegroup;
 
         return this;
     }
