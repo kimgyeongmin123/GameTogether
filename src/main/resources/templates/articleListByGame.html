@@ -125,25 +125,25 @@
 
 <main>
 
-    <div>전체 글</div>
+    <div>"<span th:text="${selectedGame}"></span>" 검색 결과</div>
     <table>
         <thead>
-            <tr>
-                <th style="width:20%;">게임</th>
-                <th style="width:40%;">제목</th>
-                <th style="width:20%;">글쓴이</th>
-                <th style="width:20%;">작성일</th>
-            </tr>
+        <tr>
+            <th style="width:20%;">게임</th>
+            <th style="width:40%;">제목</th>
+            <th style="width:20%;">글쓴이</th>
+            <th style="width:20%;">작성일</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="item : ${articles}">
-                <td th:text="${item.selectedGame}">리그오브레전드</td>
-                <td class="title_td">
-                    <a th:href="@{/articles/{id}(id=${item.id})}" th:text="${item.title}">제목</a>
-                </td>
-                <td th:text="${item.author}">글쓴이</td>
-                <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
-            </tr>
+        <tr th:each="item : ${articles}">
+            <td th:text="${item.selectedGame}">리그오브레전드</td>
+            <td class="title_td">
+                <a th:href="@{/articles/{id}(id=${item.id})}" th:text="${item.title}">제목</a>
+            </td>
+            <td th:text="${item.author}">글쓴이</td>
+            <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+        </tr>
         </tbody>
     </table>
 

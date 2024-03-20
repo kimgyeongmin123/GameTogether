@@ -112,7 +112,7 @@
                 <option value="배틀그라운드">배틀그라운드</option>
                 <option value="기타">기타</option>
             </select>
-            <button type="button">Button</button>
+            <button type="button" id="search-btn">검색</button>
         </div>
         <div>
             <button class="blue-btn" type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|">내가 쓴 글</button>
@@ -140,6 +140,7 @@
     </div>
 </footer>
 
+<script src="/js/search.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
             function success(response) {

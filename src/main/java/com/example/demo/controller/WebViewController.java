@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,6 +44,21 @@ public class WebViewController {
         model.addAttribute("article", new ArticleViewResponse(article));
 
         return "article";
+    }
+
+//    글 게임별 조회
+    @GetMapping("/articles/list/{selectedGame}")
+    public String getArticleByGame(@PathVariable String selectedGame, Model model){
+
+        System.out.println("게임별 조회 게임 : " + selectedGame);
+
+        List<ArticleListViewResponse> articles = blogService.findByGame(selectedGame).stream()
+                .map(ArticleListViewResponse::new)
+                .toList();
+
+        model.addAttribute("articles", articles);
+        model.addAttribute("selectedGame", selectedGame);
+        return "articleListByGame";
     }
 
 //    생성/수정 화면

@@ -11,4 +11,6 @@ public interface BlogRepository extends JpaRepository<Article, Long>{
 
     List<Article> findByAuthor(String author);
 
+    List<Article> findBySelectedGame(String selectedGame);
+
 }

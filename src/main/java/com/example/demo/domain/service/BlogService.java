@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,7 +30,9 @@ public class BlogService {
 
 //    글 전체 조회
     public List<Article> findAll(){
-        return blogRepository.findAll();
+        List<Article> articles = blogRepository.findAll();
+        Collections.reverse(articles);
+        return articles;
     }
 
 //    글 하나 조회
@@ -37,6 +40,13 @@ public class BlogService {
         System.out.println("글하나조회 서비스"+id);
         return blogRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("not found: " + id));
+    }
+
+//    글 게임별 조회
+    public List<Article> findByGame(String selectedGame){
+        List<Article> articles = blogRepository.findBySelectedGame(selectedGame);
+        Collections.reverse(articles);
+        return articles;
     }
 
 //    글 삭제
@@ -72,6 +82,9 @@ public class BlogService {
     }
 
     public List<Article> findByAuthor(String author){
-        return blogRepository.findByAuthor(author);
+
+        List<Article> articles = blogRepository.findByAuthor(author);
+        Collections.reverse(articles);
+        return articles;
     }
 }
