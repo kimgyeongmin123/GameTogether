@@ -16,7 +16,13 @@
         body{
             width : 100vw;
             font-size: 15px;
+            overflow : auto;
         }
+
+        body::-webkit-scrollbar {
+            width: 1px;
+            background-color: white;
+          }
         #box{
             display:flex;
             flex-direction: column;
@@ -195,7 +201,7 @@
             }
         }
 //자동 스크롤
-        $('#box').scrollTop($('#box')[0].scrollHeight);
+        $(window).scrollTop($(document).height());
     }
 
 
@@ -210,7 +216,7 @@
                 "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + chatMessage.sender + "</div><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
             );
         }
-        $('#box').scrollTop($('#box')[0].scrollHeight);
+        $(window).scrollTop($(document).height());
     }
 
 
