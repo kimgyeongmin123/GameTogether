@@ -10,8 +10,7 @@ if (deleteButton) {
         }
 
         function fail() {
-            alert('삭제 실패했습니다.');
-            location.replace('/articles');
+            alert('자신이 쓴 글만 삭제할 수 있습니다.');
         }
 
         httpRequest('DELETE',`/api/articles/${id}`, null, success, fail);
