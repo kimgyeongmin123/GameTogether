@@ -171,16 +171,23 @@
     </div>
 </footer>
 
-<script src="/js/token.js"></script>
 <script src="/js/apiRequest.js"></script>
 
-<script src="/js/myName.js"></script>
-
 <script>
-    var myName;
+var myName;
 var myNickName;
 var myAgeGroup
 document.addEventListener('DOMContentLoaded', function() {
+
+    const token = searchParam('token')
+
+    if(token){
+        localStorage.setItem("access_token", token)
+    }
+
+    function searchParam(key){
+        return new URLSearchParams(location.search).get(key);
+    }
 
     function success(response) {
         response.text().then(text => {
@@ -206,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
             location.replace('/login');
         }
 
-        httpRequest('GET',`/api/userinfo`, null, success, fail);
+        httpRequest('GET',`/api/OAuth2userinfo`, null, success, fail);
 
 });
 </script>

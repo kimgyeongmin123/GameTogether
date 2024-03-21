@@ -35,6 +35,21 @@ public class UserApiController {
                 .body(userInfoResponse);
     }
 
+//    소셜로그인의 사용자 정보 반환
+    @GetMapping("/api/OAuth2userinfo")
+    public ResponseEntity<UserInfoResponse> OAuth2userinfo(Principal principal) {
+
+        String username = principal.getName();
+
+        System.out.println(username);
+
+        User user = userService.findByEmail(username);
+        UserInfoResponse userInfoResponse = new UserInfoResponse(username, user.getNickname(), user.getAgeGroup());
+
+        return ResponseEntity.ok()
+                .body(userInfoResponse);
+    }
+
 //        사용자 정보 추가(수정)
     @PutMapping("/api/userinfo")
     public ResponseEntity<User> updateArticle(@RequestBody UpdateUserRequest request, Principal principal){
