@@ -157,12 +157,10 @@
 
                     articleList.forEach(function(article) {
 
-                        // Date 객체를 원하는 형식으로 포맷팅합니다.
                         var formattedDate = formatDate(article.createdAt);
 
-                        // 포맷팅된 날짜를 테이블에 추가합니다.
                         $("#card").append(
-                            "<tr><td>"+article.selectedGame+"</td><td class='title_td'><a href='/articles/"+article.id+"'>"+article.title+"</a></td><td>"+article.author+"</td><td>"+article.createdAt+"</td></tr>"
+                            "<tr><td>"+article.selectedGame+"</td><td class='title_td'><a href='/articles/"+article.id+"'>"+article.title+"</a></td><td>"+article.nickname+"</td><td>"+article.createdAt+"</td></tr>"
                         );
                     });
 

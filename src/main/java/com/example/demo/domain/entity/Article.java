@@ -38,12 +38,16 @@ public class Article {
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
+
     @Builder    /*빌더 패턴*/
-    public Article(String author, String selectedGame, String title, String content){
+    public Article(String author, String selectedGame, String title, String content, String nickname){
         this.author = author;
         this.selectedGame = selectedGame;
         this.title = title;
         this.content = content;
+        this.nickname = nickname;
     }
 
 //    public void update(String title, String content){

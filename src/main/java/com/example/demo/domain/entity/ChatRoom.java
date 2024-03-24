@@ -25,18 +25,26 @@ public class ChatRoom {
     @Column(name = "author", nullable = false)
     private String author;
 
+    @Column(name = "authorNickname", nullable = false)
+    private String authorNickname;
+
     @Column(name = "userName", nullable = false)
     private String userName;
 
     @Column(name = "selectedGame", nullable = false)
     private String selectedGame;
 
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
+
     @Builder    /*빌더 패턴*/
-    public ChatRoom(Long articleId, String author, String userName, String selectedGame){
+    public ChatRoom(Long articleId, String author, String authorNickname, String userName, String selectedGame, String nickname){
         this.articleId = articleId;
         this.author = author;
+        this.authorNickname = authorNickname;
         this.userName = userName;
         this.selectedGame = selectedGame;
+        this.nickname = nickname;
     }
 
 }

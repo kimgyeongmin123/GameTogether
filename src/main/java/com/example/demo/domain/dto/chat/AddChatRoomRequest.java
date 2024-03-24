@@ -13,15 +13,19 @@ public class AddChatRoomRequest {
 
     private Long articleId;
     private String author;
+    private String authorNickname;
     private String selectedGame;
+    private String nickname;
 
     //    DTO를 엔티티로
-    public ChatRoom toEntity(String userName){
+    public ChatRoom toEntity(String userName, String nickname){
         return ChatRoom.builder()
                 .articleId(articleId)
                 .author(author)
+                .authorNickname(authorNickname)
                 .selectedGame(selectedGame)
                 .userName(userName)
+                .nickname(nickname)
                 .build();
     }
 }

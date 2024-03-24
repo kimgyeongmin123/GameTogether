@@ -16,6 +16,7 @@ public class ArticleViewResponse {
     private LocalDateTime createdAt;
     private String author;
     private String selectedGame;
+    private String nickname;
 
     public ArticleViewResponse(Article article){
         this.id = article.getId();
@@ -24,5 +25,6 @@ public class ArticleViewResponse {
         this.createdAt = article.getCreatedAt();
         this.author = article.getAuthor();
         this.selectedGame = article.getSelectedGame();
+        this.nickname = article.getNickname();
     }
 }

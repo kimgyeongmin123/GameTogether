@@ -33,7 +33,7 @@ public class ChatApiController {
     @PostMapping("/api/ChatRoom")
     public ResponseEntity<ChatRoom> addChatRoom(@RequestBody AddChatRoomRequest request, Principal principal) {
 
-        System.out.println("채팅룸 컨트롤러 : " + request.getAuthor() + request.getSelectedGame());
+        System.out.println("채팅룸 컨트롤러 : " + request.getAuthorNickname() + request.getSelectedGame());
 
         if(Objects.equals(request.getAuthor(), principal.getName())){
             System.out.println("작성자와 현재 로그인한 유저가 동일하다.");

@@ -134,13 +134,14 @@
     <input type="hidden" id="article-id" th:value="${article.id}">
     <input type="hidden" id="article-author" th:value="${article.author}">
     <input type="hidden" id="article-selectedGame" th:value="${article.selectedGame}">
+    <input type="hidden" id="article-authorNickname" th:value="${article.nickname}">
 
     <div class="article-box">
         <div class="title" th:text="${article.title}">
             ArticleTitle
         </div>
         <div class="author-date">
-            <span class="author" th:text="${article.author}">orange761943@naver.com</span>|
+            <span class="author" th:text="${article.nickname}">orange761943@naver.com</span>|
             <span class="date" th:text="${#temporals.format(article.createdAt, 'yyyy.MM.dd HH:mm')}">2024.02.02 12:02</span>
         </div>
         <div class="article-body">
@@ -173,6 +174,7 @@ if (chatButton) {
         body = JSON.stringify({
             articleId: document.getElementById('article-id').value,
             author: document.getElementById('article-author').value,
+            authorNickname: document.getElementById('article-authorNickname').value,
             selectedGame: document.getElementById('article-selectedGame').value
         });
 

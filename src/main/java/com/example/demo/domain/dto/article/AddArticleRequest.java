@@ -15,12 +15,13 @@ public class AddArticleRequest {
     private String content;
 
     //    DTO를 엔티티로
-    public Article toEntity(String author){
+    public Article toEntity(String author, String nickname){
         return Article.builder()
                 .selectedGame(selectedGame)
                 .title(title)
                 .content(content)
                 .author(author)
+                .nickname(nickname)
                 .build();
     }
 }

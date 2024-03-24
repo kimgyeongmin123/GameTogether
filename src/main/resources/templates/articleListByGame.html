@@ -155,7 +155,7 @@
             <td class="title_td">
                 <a th:href="@{/articles/{id}(id=${item.id})}" th:text="${item.title}">제목</a>
             </td>
-            <td th:text="${item.author}">글쓴이</td>
+            <td th:text="${item.nickname}">글쓴이</td>
             <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
         </tr>
         </tbody>

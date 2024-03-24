@@ -150,7 +150,7 @@
 
                     chatRoomList.forEach(function(chatRoom) {
 
-                        var displayName = (myName === chatRoom.author) ? chatRoom.username : chatRoom.author;
+                        var displayName = (myName === chatRoom.author) ? chatRoom.nickname : chatRoom.authorNickname;
 
                         $("#chatRoomList").append(
                                 "<div class='room' onclick='myChat("+chatRoom.id+")'><div class='game'>"+chatRoom.selectedGame+"</div><div class='other'>"+displayName+"</div></div>"

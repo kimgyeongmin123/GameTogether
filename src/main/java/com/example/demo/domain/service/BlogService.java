@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +26,9 @@ public class BlogService {
 
 //    블로그 글 추가
     public Article save(AddArticleRequest request, String userName){
-        return blogRepository.save(request.toEntity(userName));
+
+        Optional<User> user = userRepository.findByEmail(userName);
+        return blogRepository.save(request.toEntity(userName, user.map(User::getNickname).orElse("Default Nickname")));
     }
 
 //    글 전체 조회

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,9 +24,12 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
 
+    private final UserRepository userRepository;
+
 
     public ChatRoom saveRoom(AddChatRoomRequest request, String userName){
-        return chatRoomRepository.save(request.toEntity(userName));
+        Optional<User> user = userRepository.findByEmail(userName);
+        return chatRoomRepository.save(request.toEntity(userName, user.map(User::getNickname).orElse("Default Nickname")));
     }
 
     //채팅방이 존재하는지 확인
