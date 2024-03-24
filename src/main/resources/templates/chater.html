@@ -22,7 +22,39 @@
         body::-webkit-scrollbar {
             width: 1px;
             background-color: white;
-          }
+        }
+
+        .info{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: left;
+            height: 70px;
+            position: fixed;
+            width : 100%;
+            top: 0;
+            left: 0;
+            padding-left : 20px;
+
+            background-color: rgb(255, 255, 255);
+            border-bottom: 1px solid gray;
+        }
+
+        .info>#receiverSpan{
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .info>#game{
+            color: rgb(21, 29, 108);
+            border-radius: 80px;
+        }
+
+        .chat{
+            margin-top : 70px;
+        }
+
         #box{
             display:flex;
             flex-direction: column;
@@ -88,11 +120,18 @@
             <input type="hidden" id="chatRoom-id" th:value="${chatRoom.id}">
             <input type="hidden" id="article-id" th:value="${chatRoom.articleId}">
             <input type="hidden" id="author" th:value="${chatRoom.author}">
+            <input type="hidden" id="authorNickname" th:value="${chatRoom.authorNickname}">
             <input type="hidden" id="selectedGame" th:value="${chatRoom.selectedGame}">
             <input type="hidden" id="username" th:value="${chatRoom.username}">
+            <input type="hidden" id="nickname" th:value="${chatRoom.nickname}">
         </div>
 
-        <div>
+        <section class="info">
+            <span id="receiverSpan">망고</span>
+            <span id="game" th:text="${chatRoom.selectedGame}">게임</span>
+        </section>
+
+        <div class="chat">
             <div id="box">
 
             </div>
@@ -115,8 +154,21 @@
     var roomId = document.getElementById('chatRoom-id').value;
     var chatList = [[${chatList}]];
     var author = document.getElementById('author').value;
+    var authorNickname = document.getElementById('authorNickname').value;
     var username = document.getElementById('username').value;
+    var nickname = document.getElementById('nickname').value;
     var receiver = null;
+    var senderNickname = null;
+
+    if(myName === author){
+            receiver = username;
+        } else{ receiver = author;}
+
+    if(myName === author){
+        senderNickname = authorNickname;
+    } else{ senderNickname = nickname;}
+
+    document.getElementById("receiverSpan").textContent = senderNickname;
 
     function setConnected(connected){
         if (connected) {
@@ -165,9 +217,7 @@
     function sendChat(){
         var messageInput = document.getElementById("message").value;
 
-        if(myName === author){
-            receiver = username;
-        } else{ receiver = author;}
+
 
         if(messageInput != ""){
         console.log('메시지를 보내는 sendChat() 메서드 호출, 보내는 사람 : ', myName);
@@ -195,7 +245,7 @@
                     );
                 } else {
                     $("#box").append(
-                        "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + chatList[chat].sender + "</div><div class = 'other_message'>" + chatList[chat].message + "</div></div></div>"
+                        "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + senderNickname + "</div><div class = 'other_message'>" + chatList[chat].message + "</div></div></div>"
                     );
                 }
             }
@@ -213,7 +263,7 @@
             );
         } else {
             $("#box").append(
-                "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + chatMessage.sender + "</div><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
+                "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + senderNickname + "</div><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
             );
         }
         $(window).scrollTop($(document).height());
