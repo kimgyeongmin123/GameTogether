@@ -158,17 +158,15 @@
     var username = document.getElementById('username').value;
     var nickname = document.getElementById('nickname').value;
     var receiver = null;
-    var senderNickname = null;
+    var receiverNickname = null;
 
-    if(myName === author){
-            receiver = username;
-        } else{ receiver = author;}
+    var myName;
+    var myNickName;
+    var myAgeGroup
 
-    if(myName === author){
-        senderNickname = authorNickname;
-    } else{ senderNickname = nickname;}
 
-    document.getElementById("receiverSpan").textContent = senderNickname;
+
+
 
     function setConnected(connected){
         if (connected) {
@@ -245,7 +243,7 @@
                     );
                 } else {
                     $("#box").append(
-                        "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + senderNickname + "</div><div class = 'other_message'>" + chatList[chat].message + "</div></div></div>"
+                        "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + receiverNickname + "</div><div class = 'other_message'>" + chatList[chat].message + "</div></div></div>"
                     );
                 }
             }
@@ -263,7 +261,7 @@
             );
         } else {
             $("#box").append(
-                "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + senderNickname + "</div><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
+                "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + receiverNickname + "</div><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
             );
         }
         $(window).scrollTop($(document).height());
@@ -279,6 +277,48 @@
 </script>
 <script>
     window.onload = function (){
+
+
+    function success(response) {
+        response.text().then(text => {
+                console.log('text 출력.', text);
+                const data = JSON.parse(text);
+                console.log('로그인한 유저 아이디 : ', data.username);
+                myName = data.username;
+                myNickName = data.nickname;
+                myAgeGroup = data.agegroup;
+                console.log('로그인한 유저 닉네임 : ', data.nickname);
+                console.log('로그인한 유저 나이대 : ', data.agegroup);
+
+                    if(myName === author){
+                        receiver = username;
+                        receiverNickname = nickname;
+                    } else{
+                        receiver = author;
+                        receiverNickname = authorNickname;
+                    }
+
+                    console.log('내 이메일 : ', myName);
+                    console.log('상대방 이메일 : ', receiver);
+                    console.log('상대방 닉네임 : ', receiverNickname);
+
+                    document.getElementById("receiverSpan").textContent = receiverNickname;
+
+            }).catch(error => {
+                console.error('Failed to read response body:', error);
+            });
+        }
+
+        function fail() {
+            alert('내가 쓴 목록을 조회실패했습니다.');
+            location.replace('/articles');
+        }
+
+        httpRequest('GET',`/api/userinfo`, null, success, fail);
+
+
+
+
         connect();
     }
 
