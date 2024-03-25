@@ -131,7 +131,7 @@
         <div>
             <button class="blue-btn" type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|">내가 쓴 글</button>
             <button class="blue-btn" type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|">채팅방</button>
-            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+            <button type="button" onclick="logout()">로그아웃</button>
         </div>
     </nav>
 </header>
@@ -172,53 +172,8 @@
 </footer>
 
 <script src="/js/apiRequest.js"></script>
-
-<script>
-var myName;
-var myNickName;
-var myAgeGroup
-document.addEventListener('DOMContentLoaded', function() {
-
-    const token = searchParam('token')
-
-    if(token){
-        localStorage.setItem("access_token", token)
-    }
-
-    function searchParam(key){
-        return new URLSearchParams(location.search).get(key);
-    }
-
-    function success(response) {
-        response.text().then(text => {
-                console.log('text 출력.', text);
-                const data = JSON.parse(text);
-                console.log('로그인한 유저 아이디 : ', data.username);
-                myName = data.username;
-                myNickName = data.nickname;
-                myAgeGroup = data.agegroup;
-                console.log('로그인한 유저 닉네임 : ', data.nickname);
-                console.log('로그인한 유저 나이대 : ', data.agegroup);
-
-                if(myAgeGroup === null){
-                    window.location.href = '/additional_info';
-                }
-            }).catch(error => {
-                console.error('Failed to read response body:', error);
-            });
-        }
-
-        function fail() {
-            alert('로그인에 실패하였습니다.');
-            location.replace('/login');
-        }
-
-        httpRequest('GET',`/api/OAuth2userinfo`, null, success, fail);
-
-});
-</script>
-
-
+<script src="/js/addInfoPage.js"></script>
 <script src="/js/search.js"></script>
+<script src="/js/logout.js"></script>
 </body>
 </html>

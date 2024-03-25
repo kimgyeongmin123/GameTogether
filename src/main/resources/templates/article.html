@@ -125,7 +125,7 @@
         <div>
             <button class="blue-btn" type="button" id="myArticle-btn" th:onclick="|location.href='@{/my-article}'|">내가 쓴 글</button>
             <button class="blue-btn" type="button" id="chatRoom-btn" th:onclick="|location.href='@{/chat-room}'|">채팅방</button>
-            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+            <button type="button" onclick="logout()">로그아웃</button>
         </div>
     </nav>
 </header>
@@ -200,6 +200,7 @@ if (chatButton) {
 <script src="/js/apiRequest.js"></script>
 <script src="/js/article.js"></script>
 <script src="/js/search.js"></script>
+<script src="/js/logout.js"></script>
 
 </body>
 </html>
