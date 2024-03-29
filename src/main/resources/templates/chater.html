@@ -127,8 +127,8 @@
         </div>
 
         <section class="info">
-            <span id="receiverSpan">망고</span>
-            <span id="game" th:text="${chatRoom.selectedGame}">게임</span>
+            <span id="receiverSpan"></span>
+            <span id="game" th:text="${chatRoom.selectedGame}"></span>
         </section>
 
         <div class="chat">
@@ -243,7 +243,7 @@
                     );
                 } else {
                     $("#box").append(
-                        "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + receiverNickname + "</div><div class = 'other_message'>" + chatList[chat].message + "</div></div></div>"
+                        "<div class='chatting_box'><div class = 'chatting'><div class = 'other_message'>" + chatList[chat].message + "</div></div></div>"
                     );
                 }
             }
@@ -261,7 +261,7 @@
             );
         } else {
             $("#box").append(
-                "<div class='chatting_box'><div class = 'chatting'><div class = 'other_sender'>" + receiverNickname + "</div><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
+                "<div class='chatting_box'><div class = 'chatting'><div class = 'other_message'>" + chatMessage.message + "</div></div></div>"
             );
         }
         $(window).scrollTop($(document).height());
