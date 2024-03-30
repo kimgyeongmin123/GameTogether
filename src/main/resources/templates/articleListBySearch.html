@@ -96,7 +96,6 @@
             height: 50px;
             border: 1px solid gray;
         }
-
         footer{
             padding : 10px 0px;
             margin-top : 60px;
@@ -110,9 +109,6 @@
             margin : 20px auto;
         }
 
-        main{
-            height: 500px;
-        }
 
         table {
             border-collapse: collapse;
@@ -123,6 +119,7 @@
         thead>tr>th{
             border-bottom: 1.5px solid black;
         }
+
         th, td {
             border-bottom: 1px solid lightgray;
             text-align: center;
@@ -160,8 +157,8 @@
     <div class="top-header">
         <a href="/articles"><img src="/img/GTlogo_S.png" width="auto" height="60px;"></a>
         <div class="input-group mb-3 search-box">
-            <input type="text" placeholder="제목/글쓴이/내용 통합 검색" id="AllSearchInput" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button type="button" id="AllSearch-btn">
+            <input type="text" placeholder="제목/글쓴이/내용 통합 검색" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button type="button" id="button-addon2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                 </svg>
@@ -224,27 +221,93 @@
 
 <main>
 
-    <div>전체 글</div>
-    <table>
-        <thead>
-        <tr>
-            <th style="width:20%;">게임</th>
-            <th style="width:40%;">제목</th>
-            <th style="width:20%;">글쓴이</th>
-            <th style="width:20%;">작성일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${articles}">
-            <td th:text="${item.selectedGame}">리그오브레전드</td>
-            <td class="title_td">
-                <a th:href="@{/articles/{id}(id=${item.id})}" th:text="${item.title}">제목</a>
-            </td>
-            <td th:text="${item.nickname}">글쓴이</td>
-            <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
-        </tr>
-        </tbody>
-    </table>
+    <div>"<span th:text="${input}"></span>" 검색 결과</div>
+
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">제목</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">내용</button>
+            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">글쓴이</button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width:20%;">게임</th>
+                    <th style="width:40%;">제목</th>
+                    <th style="width:20%;">글쓴이</th>
+                    <th style="width:20%;">작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${articlesByTitle}">
+                    <td th:text="${item.selectedGame}">리그오브레전드</td>
+                    <td class="title_td">
+                        <a th:href="@{/articles/{id}(id=${item.id})}" th:text="${item.title}">제목</a>
+                    </td>
+                    <td th:text="${item.nickname}">글쓴이</td>
+                    <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width:20%;">게임</th>
+                    <th style="width:40%;">제목</th>
+                    <th style="width:20%;">글쓴이</th>
+                    <th style="width:20%;">작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${articlesByContent}">
+                    <td th:text="${item.selectedGame}">리그오브레전드</td>
+                    <td class="title_td">
+                        <a th:href="@{/articles/{id}(id=${item.id})}" th:text="${item.title}">제목</a>
+                    </td>
+                    <td th:text="${item.nickname}">글쓴이</td>
+                    <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width:20%;">게임</th>
+                    <th style="width:40%;">제목</th>
+                    <th style="width:20%;">글쓴이</th>
+                    <th style="width:20%;">작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${articlesByNickname}">
+                    <td th:text="${item.selectedGame}">리그오브레전드</td>
+                    <td class="title_td">
+                        <a th:href="@{/articles/{id}(id=${item.id})}" th:text="${item.title}">제목</a>
+                    </td>
+                    <td th:text="${item.nickname}">글쓴이</td>
+                    <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
 
 </main>
 
@@ -257,23 +320,10 @@
     </div>
 </footer>
 
+<script src="/js/token.js"></script>
 <script src="/js/apiRequest.js"></script>
 <script src="/js/searchGame.js"></script>
 <script src="/js/logout.js"></script>
 <script src="/js/navNickname.js"></script>
-
-<script>
-    const AllSearchButton = document.getElementById("AllSearch-btn");
-
-if (AllSearchButton) {
-    AllSearchButton.addEventListener("click", () => {
-        const input = document.getElementById("AllSearchInput").value;
-
-
-        window.location.href = `/articles/search/${input}`;
-
-    });
-}
-</script>
 </body>
 </html>

@@ -61,6 +61,34 @@ public class WebViewController {
         return "articleListByGame";
     }
 
+    //    글 검색 조회
+    @GetMapping("/articles/search/{input}")
+    public String getArticleBySearch(@PathVariable String input, Model model){
+
+        System.out.println("검색하여 조회 : " + input);
+
+        List<ArticleListViewResponse> articlesByTitle = blogService.findByTitle(input).stream()
+                .map(ArticleListViewResponse::new)
+                .toList();
+
+        List<ArticleListViewResponse> articlesByContent = blogService.findByContent(input).stream()
+                .map(ArticleListViewResponse::new)
+                .toList();
+
+        List<ArticleListViewResponse> articlesByNickname = blogService.findByNickname(input).stream()
+                .map(ArticleListViewResponse::new)
+                .toList();
+
+        System.out.println("조회 결과 : " + articlesByTitle + articlesByContent + articlesByNickname);
+
+        model.addAttribute("articlesByTitle", articlesByTitle);
+        model.addAttribute("articlesByContent", articlesByContent);
+        model.addAttribute("articlesByNickname", articlesByNickname);
+        model.addAttribute("input", input);
+
+        return "articleListBySearch";
+    }
+
 //    생성/수정 화면
     @GetMapping("/new-article")
     public String newArticle(@RequestParam(required = false) Long id, Model model){

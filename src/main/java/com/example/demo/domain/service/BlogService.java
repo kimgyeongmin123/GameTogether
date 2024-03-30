@@ -52,6 +52,27 @@ public class BlogService {
         return articles;
     }
 
+    //    글 제목 검색
+    public List<Article> findByTitle(String input){
+        List<Article> articlesByTitle = blogRepository.findByTitleContaining(input);
+        Collections.reverse(articlesByTitle);
+        return articlesByTitle;
+    }
+
+    //    글 내용 검색
+    public List<Article> findByContent(String input){
+        List<Article> articlesByContent = blogRepository.findByContentContaining(input);
+        Collections.reverse(articlesByContent);
+        return articlesByContent;
+    }
+
+    //    글 닉네임 검색
+    public List<Article> findByNickname(String input){
+        List<Article> articlesByNickname = blogRepository.findByNicknameContaining(input);
+        Collections.reverse(articlesByNickname);
+        return articlesByNickname;
+    }
+
 //    글 삭제
     public void delete(long id){
 

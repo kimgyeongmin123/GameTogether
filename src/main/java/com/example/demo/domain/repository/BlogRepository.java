@@ -13,4 +13,10 @@ public interface BlogRepository extends JpaRepository<Article, Long>{
 
     List<Article> findBySelectedGame(String selectedGame);
 
+    List<Article> findByTitleContaining(String input);
+
+    List<Article> findByContentContaining(String input);
+
+    List<Article> findByNicknameContaining(String input);
+
 }
