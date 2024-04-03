@@ -237,7 +237,7 @@
 
     <section>
         <div class="text">
-            <h3>게임을 선택해주세요.</h3>
+            <h3>항목을 선택해주세요.</h3>
         </div>
         <div class="form-check form-check-inline">
             <label class="game-label" for="gameRadio1"><img src="/img/lolLogo.jpeg" width="auto" height="100px"></label>
@@ -309,19 +309,7 @@
 <script src="/js/logout.js"></script>
 <script src="/js/navNickname.js"></script>
 
-<script>
-    const AllSearchButton = document.getElementById("AllSearch-btn");
-
-if (AllSearchButton) {
-    AllSearchButton.addEventListener("click", () => {
-        const input = document.getElementById("AllSearchInput").value;
-
-
-        window.location.href = `/articles/search/${input}`;
-
-    });
-}
-</script>
+<script src="/js/searchAll.js"></script>
 
 
 </body>
