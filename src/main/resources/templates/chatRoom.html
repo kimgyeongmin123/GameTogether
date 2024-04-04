@@ -225,6 +225,8 @@
 <script src="/js/searchGame.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        handleNavNickname();
+
             function success(response) {
                 response.json().then(chatRoomList => {
                     console.log('채팅방 조회 결과:', chatRoomList);
@@ -264,6 +266,7 @@
 <script src="/js/navNickname.js"></script>
 
 <script src="/js/searchAll.js"></script>
+
 
 </body>
 </html>

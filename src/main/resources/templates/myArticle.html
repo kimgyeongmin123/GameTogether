@@ -233,6 +233,8 @@
 <script src="/js/searchGame.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        handleNavNickname();
+
             function success(response) {
                 response.json().then(articleList => {
                     console.log('내가 쓴 글 조회 결과:', articleList);
