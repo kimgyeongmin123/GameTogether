@@ -49,9 +49,13 @@ public class UserService {
 
     //이메일중복조회
     public boolean emailExist(String email) {
-        System.out.println("들어와버린 이메일 중복 조회 서비스");
         Optional<User> user = userRepository.findByEmail(email);
-        System.out.println("찾은 유저 정보 : "+user+"존재 유무"+user.isPresent());
+        return user.isPresent();
+    }
+
+    //닉네임중복조회
+    public boolean nicknameExist(String nickname) {
+        Optional<User> user = userRepository.findByNickname(nickname);
         return user.isPresent();
     }
 }

@@ -85,7 +85,8 @@
         </div>
         <div class="mb-3">
             <label class="form-label">닉네임</label>
-            <input type="text" name="nickname" class="form-control" placeholder="닉네임">
+            <input type="text" name="nickname" class="form-control" id="nicknameInput" placeholder="닉네임">
+            <span id="nicknameError" class="error"></span>
         </div>
         <div class="mb-3">
             <label class="form-label">나이</label>
@@ -104,6 +105,7 @@
 
 <script>
     const emailInput = document.querySelector("#emailInput");
+    const nicknameInput = document.querySelector("#nicknameInput");
 
     $(document).ready(function(){
 
@@ -112,6 +114,12 @@
 
                 if (email == '') {
                     $("#userIdError").text("아이디를 입력하세요.");
+                    return;
+                }
+
+                var emailRegex = /\S+@\S+\.\S+/;
+                if (!emailRegex.test(email)) {
+                    $("#userIdError").text("올바른 이메일 형식이 아닙니다.").css("color","red");
                     return;
                 }
 
@@ -125,6 +133,32 @@
                             $("#userIdError").text(data.message).css("color","red");
                         } else {
                             $("#userIdError").text(data.message).css("color", "blue");
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $("input[name='nickname']").on('input', function() {
+                var nickname = $(this).val();
+
+                if (nickname == '') {
+                    $("#nicknameError").text("닉네임을 입력하세요.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/nicknameExist',
+                    type: 'POST',
+                    data: JSON.stringify({ nickname: nickname }),
+                    contentType: "application/json",
+                    success: function(data) {
+                        if (data.status === 'fail') {
+                            $("#nicknameError").text(data.message).css("color","red");
+                        } else {
+                            $("#nicknameError").text(data.message).css("color", "blue");
                         }
                     },
                     error: function(error) {

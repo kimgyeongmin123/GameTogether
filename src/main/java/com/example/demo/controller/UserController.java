@@ -43,16 +43,32 @@ public class UserController {
 //    회원가입 시 이메일 중복체크
     @PostMapping("/emailExist")
     @ResponseBody
-    public Map<String, String> checkUserId(@RequestBody Map<String, String> emailMap) {
-        System.out.println("이메일 중복체크를 하는 컨트롤러");
+    public Map<String, String> emailExist(@RequestBody Map<String, String> emailMap) {
+
         Map<String, String> result = new HashMap<>();
         String email = emailMap.get("email");
-        System.out.println("정보 result : "+result+" / email : "+email);
         if (userService.emailExist(email)) {
             result.put("message", "이미 사용중인 아이디입니다.");
             result.put("status", "fail");
         } else {
             result.put("message", "사용 가능한 아이디입니다.");
+            result.put("status", "success");
+        }
+        return result;
+    }
+
+    //    회원가입 시 닉네임 중복체크
+    @PostMapping("/nicknameExist")
+    @ResponseBody
+    public Map<String, String> nicknameExist(@RequestBody Map<String, String> nicknameMap) {
+
+        Map<String, String> result = new HashMap<>();
+        String nickname = nicknameMap.get("nickname");
+        if (userService.nicknameExist(nickname)) {
+            result.put("message", "이미 사용중인 닉네임입니다.");
+            result.put("status", "fail");
+        } else {
+            result.put("message", "사용 가능한 닉네임입니다.");
             result.put("status", "success");
         }
         return result;
