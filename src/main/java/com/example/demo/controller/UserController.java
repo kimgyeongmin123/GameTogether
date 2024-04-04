@@ -11,6 +11,11 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,5 +38,23 @@ public class UserController {
         response.addCookie(myCookie);
 
         return "redirect:/login";
+    }
+
+//    회원가입 시 이메일 중복체크
+    @PostMapping("/emailExist")
+    @ResponseBody
+    public Map<String, String> checkUserId(@RequestBody Map<String, String> emailMap) {
+        System.out.println("이메일 중복체크를 하는 컨트롤러");
+        Map<String, String> result = new HashMap<>();
+        String email = emailMap.get("email");
+        System.out.println("정보 result : "+result+" / email : "+email);
+        if (userService.emailExist(email)) {
+            result.put("message", "이미 사용중인 아이디입니다.");
+            result.put("status", "fail");
+        } else {
+            result.put("message", "사용 가능한 아이디입니다.");
+            result.put("status", "success");
+        }
+        return result;
     }
 }
