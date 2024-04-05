@@ -43,7 +43,6 @@ public class ChatService {
     }
 
     public ChatRoom findById(long id){
-        System.out.println("채팅룸 찾기 서비스 : " + id);
         return chatRoomRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("not found: " + id));
     }

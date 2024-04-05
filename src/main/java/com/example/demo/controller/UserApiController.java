@@ -26,8 +26,6 @@ public class UserApiController {
 
         String username = principal.getName();
 
-        System.out.println(username);
-
         User user = userService.findByEmail(username);
         UserInfoResponse userInfoResponse = new UserInfoResponse(username, user.getNickname(), user.getAgeGroup());
 
@@ -41,8 +39,6 @@ public class UserApiController {
 
         String username = principal.getName();
 
-        System.out.println(username);
-
         User user = userService.findByEmail(username);
         UserInfoResponse userInfoResponse = new UserInfoResponse(username, user.getNickname(), user.getAgeGroup());
 
@@ -54,7 +50,6 @@ public class UserApiController {
     @PutMapping("/api/userinfo")
     public ResponseEntity<User> updateArticle(@RequestBody UpdateUserRequest request, Principal principal){
 
-        System.out.println("사용자 정보를 추가하는 컨트롤러");
         String username = principal.getName();
         User user = userService.findByEmail(username);
         User UpdateUser = userService.update(user, request);

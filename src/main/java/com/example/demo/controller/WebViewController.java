@@ -50,8 +50,6 @@ public class WebViewController {
     @GetMapping("/articles/list/{selectedGame}")
     public String getArticleByGame(@PathVariable String selectedGame, Model model){
 
-        System.out.println("게임별 조회 게임 : " + selectedGame);
-
         List<ArticleListViewResponse> articles = blogService.findByGame(selectedGame).stream()
                 .map(ArticleListViewResponse::new)
                 .toList();
@@ -65,8 +63,6 @@ public class WebViewController {
     @GetMapping("/articles/search/{input}")
     public String getArticleBySearch(@PathVariable String input, Model model){
 
-        System.out.println("검색하여 조회 : " + input);
-
         List<ArticleListViewResponse> articlesByTitle = blogService.findByTitle(input).stream()
                 .map(ArticleListViewResponse::new)
                 .toList();
@@ -78,8 +74,6 @@ public class WebViewController {
         List<ArticleListViewResponse> articlesByNickname = blogService.findByNickname(input).stream()
                 .map(ArticleListViewResponse::new)
                 .toList();
-
-        System.out.println("조회 결과 : " + articlesByTitle + articlesByContent + articlesByNickname);
 
         model.addAttribute("articlesByTitle", articlesByTitle);
         model.addAttribute("articlesByContent", articlesByContent);

@@ -13,17 +13,5 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class NotificationController {
 
-//    private final NotificationService notificationService;
-//
-//    @MessageMapping("/{userId}")
-//    @SendTo("/notification/{userId}")
-//    public ChatMessage chat(@DestinationVariable String userId, ChatMessage chatmessage){
-//
-//        Chat chat = chatService.saveChat(roomId, chatmessage);
-//        return ChatMessage.builder()
-//                .roomId(roomId)
-//                .sender(chat.getSender())
-//                .message(chat.getMessage())
-//                .build();
-//    }
+
 }

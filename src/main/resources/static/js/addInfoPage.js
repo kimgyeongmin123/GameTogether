@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function success(response) {
         response.text().then(text => {
-                console.log('text 출력.', text);
                 const data = JSON.parse(text);
                 console.log('로그인한 유저 아이디 : ', data.username);
                 myName = data.username;

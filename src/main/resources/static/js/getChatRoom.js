@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
             function success(response) {
                 response.json().then(chatRoomList => {
-                    console.log('채팅방 조회 결과:', chatRoomList);
-                    console.log('로그인한 이메일:', myName);
 
                     chatRoomList.forEach(function(chatRoom) {
 

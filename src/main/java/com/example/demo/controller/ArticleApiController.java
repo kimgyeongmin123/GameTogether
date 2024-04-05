@@ -22,8 +22,7 @@ public class ArticleApiController {
 //    글 작성
     @PostMapping("/api/articles")
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request, Principal principal){
-        System.out.println("글등록 컨트롤러 제목 : " + request.getTitle());
-        System.out.println("userName : " + principal.getName());
+
         Article savedArticle = blogService.save(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -33,7 +32,7 @@ public class ArticleApiController {
 //    글 전체 조회
     @GetMapping("/api/articles")
     public ResponseEntity<List<ArticleResponse>> findArticles(){
-        System.out.println("글전체조회 컨트롤러");
+
         List<ArticleResponse> articles = blogService.findAll()
                 .stream()
                 .map(ArticleResponse::new)
@@ -46,7 +45,7 @@ public class ArticleApiController {
 //    글 하나 조회
     @GetMapping("/api/articles/{id}")
     public ResponseEntity<ArticleResponse> findArticle(@PathVariable("id") long id){
-        System.out.println("글하나조회 컨트롤러"+id);
+
         Article article = blogService.findById(id);
 
         return ResponseEntity.ok()
@@ -62,7 +61,7 @@ public class ArticleApiController {
                 .build();
     }
 
-//    글 수정 (기능 삭제)
+//    글 수정 (수정 기능 삭제)
 //    @PutMapping("/api/articles/{id}")
 //    public ResponseEntity<Article> updateArticle(@PathVariable long id,
 //                                                 @RequestBody UpdateArticleRequest request){
@@ -74,13 +73,11 @@ public class ArticleApiController {
 
     @GetMapping("/api/myArticle")
     public ResponseEntity<List<ArticleViewResponse>> myArticle(Principal principal){
-        System.out.println("내가 쓴 글 조회 컨트롤러 누구? : " + principal.getName());
+
         List<ArticleViewResponse> myArticles = blogService.findByAuthor(principal.getName())
                 .stream()
                 .map(ArticleViewResponse::new)
                 .toList();
-
-        System.out.println("찾은 게시물 : " + myArticles);
 
         return ResponseEntity.ok()
                 .body(myArticles);

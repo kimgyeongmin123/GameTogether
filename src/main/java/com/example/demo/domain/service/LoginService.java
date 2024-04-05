@@ -39,7 +39,6 @@ public class LoginService {
 
     @Transactional
     public String login(WebLoginRequest request) {
-        System.out.println("로그인 서비스 email : " + request.getEmail());
         //ID 체크
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + request.getEmail()));
@@ -53,7 +52,6 @@ public class LoginService {
     }
 
     public String makeRefreshToken(WebLoginRequest request){
-        System.out.println("메이크 리프레시토큰 서비스 email : " + request.getEmail());
         //ID 체크
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + request.getEmail()));
@@ -66,7 +64,6 @@ public class LoginService {
                 .map(entity -> entity.update(refreshToken))
                 .orElse(new RefreshToken(user.getId(), refreshToken));
         refreshTokenRepository.save(DBrefreshToken);
-        System.out.println("DBrefreshToken : " + DBrefreshToken);
 //        쿠키에 저장
 
 

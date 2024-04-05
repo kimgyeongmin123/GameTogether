@@ -25,10 +25,11 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid WebLoginRequest request){
-        System.out.println("로그인 컨드롤러 로그인 : " + request.getEmail());
+
         String token = loginService.login(request);
-        System.out.println("토큰 : " + token);
+
         String refreshToken = loginService.makeRefreshToken(request);
+
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 

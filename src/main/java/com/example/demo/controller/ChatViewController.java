@@ -28,16 +28,15 @@ public class ChatViewController {
 
     @GetMapping("/chatRoom/{id}")
     public String chatGET(@PathVariable long id, Model model){
-        System.out.println("@ChatController, chat GET() : " + id);
 
         ChatRoom chatRoom = chatService.findById(id);
-        System.out.println("채팅룸 불러오는 컨트롤러에서.. 채팅룸 정보 : " + chatRoom);
+
         model.addAttribute("chatRoom", new ChatRoomViewResponse(chatRoom));
 
         List<Chat> chatList = chatService.findChatById(id);
         System.out.println(id + "번 방에서 찾은 대화 내역 : " + chatList);
-        model.addAttribute("chatList", chatList);
 
+        model.addAttribute("chatList", chatList);
 
         return "chater";
     }
